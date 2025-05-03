@@ -1,0 +1,93 @@
+
+[
+  {
+    "id": "auto-finetune-rag",
+    "title": "Auto Finetune & RAG Pipeline Deployment",
+    "description": "Streamlined the training and deployment cycle through a “one-click” platform that automatically converts unstructured data into trainable formats and applies advanced tuning (LoRA, QLoRA, knowledge distillation). Implemented dual RAG pipelines (vector & graph DBs) boosting knowledge retrieval efficiency by 35%. Forged Jenkins CI/CD on AWS and created an Auto-LLM deployment pipeline with LORAX, cutting API rollout time by 50% and increasing inference efficiency by 70%.",
+    "technologies": ["AWS", "Jenkins", "LoRA", "QLoRA", "Knowledge Distillation", "RAG", "Neo4j", "Vector DB", "LORAX", "Guardian Models", "LLMOps"],
+    "imageUrl": "https://picsum.photos/seed/pipeline-deploy/400/300",
+    "aiHint": "cloud deployment pipeline diagram",
+    "category": "Featured",
+    "link": "https://github.com/HarshithDR/Auto-Llm-Deployment-with-lorax"
+  },
+  {
+    "id": "customer-support-chatbot",
+    "title": "Customer Support Chatbot with RAG",
+    "description": "Built a GPT-4 powered chatbot leveraging Zendesk APIs for real-time Auto-support ticket handling and Pinecone’s vector search for efficient knowledge retrieval, reducing manual ticket resolution time by 30%. Established a confidence-based fallback mechanism for human escalation. Designed a real-time monitoring pipeline with Prometheus and Grafana.",
+    "technologies": ["GPT-4", "Zendesk API", "Pinecone", "RAG", "Prometheus", "Grafana", "NLP"],
+    "imageUrl": "https://picsum.photos/seed/chatbot-support/400/300",
+    "aiHint": "chatbot interface conversation",
+    "category": "Featured",
+    "link": "https://github.com/HarshithDR/RAG-using-zendesk-and-pinecone"
+  },
+    {
+    "id": "iot-robotics-guidance",
+    "title": "CNN & IoT Robotics for Body Balancing",
+    "description": "Engineered CNN models integrated with IoT robotics for real-time body-balancing task guidance, boosting system accuracy and improving learning rate by 50%. Optimized TensorFlow Lite deployment on Raspberry Pi with AWS S3, reducing model size and cloud round-trip by 40%.",
+    "technologies": ["CNN", "TensorFlow Lite", "IoT", "Robotics", "Raspberry Pi", "AWS S3", "Python", "Computer Vision"],
+    "imageUrl": "https://picsum.photos/seed/robot-balance/400/300",
+    "aiHint": "robot arm balancing",
+    "category": "Robotics",
+    "link": "https://github.com/HarshithDR/Body-Balancing-Task-guidance-using-CNN"
+   },
+   {
+    "id": "ai-assistant-visually-impaired",
+    "title": "AI Assistant for Visually Impaired",
+    "description": "Developed an AI product to assist visually impaired individuals with public transportation, currency recognition, and road-crossing safety using real-time object detection (YOLOv5, Mobilenet) deployed on edge device (Raspberry Pi), achieving 95% accuracy. Integrated an audio-based interaction system.",
+    "technologies": ["YOLOv5", "Mobilenet", "Computer Vision", "Edge AI", "Raspberry Pi", "Python", "Object Detection", "Audio Processing"],
+    "imageUrl": "https://picsum.photos/seed/ai-assist-vision/400/300",
+    "aiHint": "object detection bounding box bus currency",
+    "category": "Robotics",
+    "link": "https://github.com/HarshithDR/AI-Product-for-Visually-Impaired-Individuals"
+   },
+  {
+    "id": "social-media-podcast",
+    "title": "Social Media Driven Podcast Generation",
+    "description": "Developed a solution that automatically fetches data from Twitter and Reddit, reducing content-scripting time by 70%. Utilized MongoDB for user profiles. Streamlined Eleven Labs for speech synthesis with GPT-4 via OpenAI’s API using Replit for cloud deployment, enabling on-demand podcasts generated in under 2 minutes.",
+    "technologies": ["OpenAI API", "GPT-4", "ElevenLabs", "Twitter API", "Reddit API", "MongoDB", "Replit", "Web Scraping"],
+    "imageUrl": "https://picsum.photos/seed/podcast-gen/400/300",
+    "aiHint": "podcast audio wave",
+    "category": "Web/Cloud",
+    "link": "https://github.com/HarshithDR/Podcast-generation-platform"
+  },
+  {
+    "id": "multimodal-ai-video",
+    "title": "Multimodal AI Video Generation (Hackathon)",
+    "description": "Constructed a multimodal AI video generation system integrating news scraping and rapid video production. Completed in 48 hours and recognized as the best out of 70 teams, winning the OraHacks hackathon.",
+    "technologies": ["Multimodal AI", "Web Scraping", "Video Generation", "Python"],
+    "imageUrl": "https://picsum.photos/seed/ai-video-gen/400/300",
+    "aiHint": "ai generated video abstract",
+    "category": "AI/ML",
+    "link": null
+  },
+  {
+    "id": "tiktok-genai",
+    "title": "TikTok TechJam Gen AI (Hackathon)",
+    "description": "Secured Top 10 Finalists position in TikTok TechJam Hackathon for a Gen AI project, ranking among the top 0.3% of global participants.",
+    "technologies": ["Generative AI", "Python"],
+    "imageUrl": "https://picsum.photos/seed/tiktok-hack/400/300",
+    "aiHint": "hackathon award trophy",
+    "category": "AI/ML",
+    "link": null
+  },
+   {
+    "id": "smart-irrigation",
+    "title": "AI-Powered Smart Irrigation System",
+    "description": "Pioneered a Random Forest Regressor (86% test accuracy) for predictive automated irrigation. Optimized a smart sprinkler system, reducing water consumption by 65% and outperforming competing solutions by 15%.",
+    "technologies": ["Random Forest", "Python", "Scikit-learn", "IoT", "Machine Learning"],
+    "imageUrl": "https://picsum.photos/seed/irrigation-ai/400/300",
+    "aiHint": "smart sprinkler field",
+    "category": "AI/ML",
+    "link": "https://github.com/HarshithDR/Smart-Sprinkler-System"
+   },
+   {
+    "id": "virtual-educator-rl",
+    "title": "Virtual Educator with Fine-tuned GPT-3 & RL",
+    "description": "Fine-tuned GPT-3 to serve as a virtual educator and applied customized reinforcement learning algorithms, enhancing skill acquisition by 60% through adaptive, real-time feedback.",
+    "technologies": ["GPT-3", "Fine-tuning", "Reinforcement Learning", "NLP", "Python"],
+    "imageUrl": "https://picsum.photos/seed/ai-tutor/400/300",
+    "aiHint": "ai tutor interface",
+    "category": "AI/ML",
+    "link": "https://github.com/HarshithDR/Virtual-Educator-using-Fine-tuned-GPT-3"
+   }
+]

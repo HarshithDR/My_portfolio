@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  :root {
+    /* New Backend/Bold Theme - Charcoal/Electric Blue - Light */
+    --background: 210 20% 98%; /* Very light cool gray */
+    --foreground: 210 15% 18%; /* Dark Charcoal */
+    --card: 0 0% 100%;         /* White */
+    --card-foreground: 210 15% 18%; /* Dark Charcoal */
+    --popover: 0 0% 100%;      /* White */
+    --popover-foreground: 210 15% 18%; /* Dark Charcoal */
+    --primary: 210 15% 25%;    /* Slightly lighter Charcoal */
+    --primary-foreground: 210 20% 98%; /* Light cool gray */
+    --secondary: 210 15% 94%;  /* Light cool gray */
+    --secondary-foreground: 210 15% 25%; /* Charcoal */
+    --muted: 210 15% 96%;    /* Very light cool gray */
+    --muted-foreground: 210 10% 45%; /* Mid cool gray */
+    --accent: 220 80% 55%;    /* Electric Blue */
+    --accent-foreground: 0 0% 100%; /* White */
+    --destructive: 0 72% 51%;   /* Default destructive */
+    --destructive-foreground: 0 0% 98%; /* Default destructive fg */
+    --border: 210 10% 88%;    /* Light cool gray border */
+    --input: 210 10% 88%;     /* Light cool gray input */
+    --ring: 220 80% 55%;       /* Accent Blue ring */
+    --chart-1: 220 70% 50%;    /* Primary accent variant */
+    --chart-2: 210 15% 45%;    /* Darker charcoal variant */
+    --chart-3: 220 60% 65%;    /* Lighter accent */
+    --chart-4: 210 15% 65%;    /* Lighter charcoal */
+    --chart-5: 220 90% 45%;    /* Darker accent */
+    --radius: 0.5rem;
+    /* Sidebar specific theme variables */
+    --sidebar-background: 210 20% 98%; /* Consistent with page background */
+    --sidebar-foreground: 210 15% 18%; /* Consistent with page foreground */
+    --sidebar-primary: 220 80% 55%;    /* Accent */
+    --sidebar-primary-foreground: 0 0% 100%; /* White */
+    --sidebar-accent: 210 15% 94%;    /* Light cool gray */
+    --sidebar-accent-foreground: 210 15% 25%; /* Charcoal */
+    --sidebar-border: 210 10% 88%;    /* Light cool gray border */
+    --sidebar-ring: 220 80% 55%;       /* Accent */
+  }
+
+  .dark {
+    /* New Backend/Bold Theme - Near Black/Electric Blue - Dark */
+    --background: 210 15% 8%;  /* Very dark near-black blue */
+    --foreground: 210 10% 85%;  /* Light cool gray */
+    --card: 210 15% 12%;    /* Slightly lighter dark */
+    --card-foreground: 210 10% 85%; /* Light cool gray */
+    --popover: 210 15% 8%;   /* Very dark base */
+    --popover-foreground: 210 10% 85%; /* Light cool gray */
+    --primary: 210 10% 75%;    /* Lighter Gray for contrast */
+    --primary-foreground: 210 15% 8%; /* Very dark base */
+    --secondary: 210 10% 20%;  /* Mid-dark cool gray */
+    --secondary-foreground: 210 10% 75%; /* Lighter gray */
+    --muted: 210 10% 15%;    /* Darker cool gray */
+    --muted-foreground: 210 10% 55%; /* Mid-light cool gray */
+    --accent: 220 85% 60%;    /* Brighter Electric Blue */
+    --accent-foreground: 210 15% 8%; /* Very dark base */
+    --destructive: 0 63% 40%;   /* Default destructive */
+    --destructive-foreground: 0 0% 98%; /* Default destructive fg */
+    --border: 210 10% 25%;    /* Darker cool gray border */
+    --input: 210 10% 25%;     /* Darker cool gray input */
+    --ring: 220 85% 60%;       /* Brighter Blue ring */
+    --chart-1: 220 80% 65%;    /* Primary accent variant */
+    --chart-2: 210 10% 55%;    /* Lighter gray variant */
+    --chart-3: 220 70% 75%;    /* Lighter accent */
+    --chart-4: 210 10% 35%;    /* Darker gray */
+    --chart-5: 220 90% 50%;    /* Darker accent */
+    /* Sidebar specific theme variables */
+    --sidebar-background: 210 15% 12%; /* Slightly lighter dark */
+    --sidebar-foreground: 210 10% 85%; /* Consistent with page foreground */
+    --sidebar-primary: 220 85% 60%;    /* Accent */
+    --sidebar-primary-foreground: 210 15% 8%; /* Very dark */
+    --sidebar-accent: 210 10% 20%;    /* Mid-dark cool gray */
+    --sidebar-accent-foreground: 210 10% 75%; /* Lighter gray */
+    --sidebar-border: 210 10% 25%;    /* Darker cool gray border */
+    --sidebar-ring: 220 85% 60%;       /* Accent */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Add smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
