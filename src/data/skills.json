@@ -13,7 +13,7 @@
     ]
   },
   {
-    "title": "Frameworks & Libraries",
+    "title": "AI/ML Frameworks",
     "icon": "Wrench",
     "skills": [
       { "name": "TensorFlow", "icon": "TensorFlow" },
@@ -24,12 +24,11 @@
       { "name": "Hugging Face", "icon": "HuggingFace" },
       { "name": "OpenCV", "icon": "OpenCv" },
       { "name": "Langgraph", "icon": "Langchain" },
-      { "name": "MCP", "icon": "BrainCircuit" },
       { "name": "Unsloth", "icon": "Unsloth" }
     ]
   },
   {
-    "title": "Artificial Intelligence",
+    "title": "AI Concepts",
     "icon": "BrainCircuit",
     "skills": [
       { "name": "NLP", "icon": "Nlp" },
@@ -37,16 +36,17 @@
       { "name": "LLM Fine-tuning", "icon": "Llm" },
       { "name": "RAG / GraphRAG", "icon": "Llm" },
       { "name": "Cross-Modal Learning", "icon": "BrainCircuit" },
-      { "name": "PEFT", "icon": "Llm" },
-      { "name": "vLLM", "icon": "Llm" },
+      { "name": "PEFT", "icon": "BrainCircuit" },
+      { "name": "vLLM", "icon": "BrainCircuit" },
       { "name": "Tokenization & Embeddings", "icon": "BrainCircuit" },
       { "name": "Diffusion Models", "icon": "Diffusion" },
       { "name": "Diffusion Fine Tuning", "icon": "Diffusion" },
-      { "name": "Llama.cpp", "icon": "LlamaCpp" }
+      { "name": "Llama.cpp", "icon": "LlamaCpp" },
+      { "name": "Vector Databases", "icon": "VectorDb" }
     ]
   },
    {
-    "title": "Machine Learning",
+    "title": "ML Concepts",
     "icon": "Cog",
     "skills": [
       { "name": "CNN", "icon": "Cnn" },
@@ -77,7 +77,7 @@
     ]
   },
   {
-    "title": "Databases & Big Data",
+    "title": "Databases & Vector DB",
     "icon": "Database",
     "skills": [
       { "name": "Apache Spark", "icon": "Spark" },
@@ -103,3 +103,5 @@
     ]
   }
 ]
+
+    
