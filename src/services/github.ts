@@ -1,126 +1,127 @@
+'use server';
+/**
+ * @fileOverview Service for interacting with the GitHub API.
+ */
 
 import type { GitHubRepository } from '@/types';
 
-// Helper function to fetch README content
+const GITHUB_API_BASE = 'https://api.github.com';
+const GITHUB_USERNAME = 'HarshithDR'; // Your GitHub username
+
+/**
+ * Fetches the content of a repository's README file.
+ * @param username The GitHub username.
+ * @param repoName The name of the repository.
+ * @param token Optional GitHub Personal Access Token.
+ * @returns A promise resolving to the README content string or null if not found/error.
+ */
 async function getReadmeContent(username: string, repoName: string, token?: string): Promise<string | null> {
-    const readmeUrl = `https://api.github.com/repos/${username}/${repoName}/readme`;
+    const url = `${GITHUB_API_BASE}/repos/${username}/${repoName}/readme`;
+    const headers: HeadersInit = {
+        'Accept': 'application/vnd.github.raw+json', // Request raw content
+        'X-GitHub-Api-Version': '2022-11-28'
+    };
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+
     try {
-        const response = await fetch(readmeUrl, {
-            headers: {
-                Accept: 'application/vnd.github.raw+json', // Fetch raw content
-                ...(token && { Authorization: `Bearer ${token}` }), // Use Bearer token
-                'X-GitHub-Api-Version': '2022-11-28'
-            },
-            next: { revalidate: 3600 } // Cache README content as well
-        });
+        // console.log(`Fetching README for ${username}/${repoName}`);
+        const response = await fetch(url, { headers, next: { revalidate: 3600 } }); // Cache for 1 hour
 
         if (response.ok) {
-            return await response.text();
+            const readmeText = await response.text();
+            // console.log(`Successfully fetched README for ${username}/${repoName}`);
+            return readmeText;
         }
-
-        // Log specific errors for debugging
         if (response.status === 404) {
-            // console.log(`No README found for ${username}/${repoName} (404).`); // Reduce noise
-        } else if (response.status === 403) {
-            // 403 Forbidden often indicates rate limiting or permission issues
-            console.warn(`Failed to fetch README for ${username}/${repoName}: ${response.status} ${response.statusText}. Check GITHUB_PAT validity, permissions, and rate limits.`);
-        } else {
-            // Log other non-OK statuses as errors
-            console.error(`Failed to fetch README for ${username}/${repoName}: ${response.status} ${response.statusText}`);
+            // console.log(`No README found for ${username}/${repoName}`);
+            return null; // No README file
         }
-        return null; // Return null for any non-OK response
-
+        console.error(`Failed to fetch README for ${username}/${repoName}: ${response.status} ${response.statusText}`);
+        return null;
     } catch (error) {
-        console.error(`Network or other error fetching README for ${username}/${repoName}:`, error);
+        console.error(`Error fetching README for ${username}/${repoName}:`, error);
         return null;
     }
 }
 
-
 /**
- * Asynchronously retrieves a list of public GitHub repositories for a given username, including README content.
- * Uses a Personal Access Token (PAT) for potentially higher rate limits.
+ * Fetches public GitHub repositories for a user using the GitHub API.
+ * Includes README content fetching.
  *
  * @param username The GitHub username.
- * @returns A promise that resolves to an array of GitHubRepository objects. Returns an empty array if the initial repo list fetch fails due to rate limits or other errors.
- * @throws {Error} Only if the GitHub PAT is explicitly required but not configured (optional, depending on policy).
+ * @returns A promise resolving to an array of GitHubRepository objects.
  */
 export async function getGitHubRepositories(username: string): Promise<GitHubRepository[]> {
-  const token = process.env.GITHUB_PAT;
-
-  // Decide if PAT is strictly required. If so, uncomment the error throw.
-  // if (!token) {
-  //   throw new Error('GITHUB_PAT environment variable is not set. Cannot fetch GitHub repositories.');
-  // }
-
-  if (!token) {
-    console.warn('GITHUB_PAT environment variable is not set. GitHub API requests will be unauthenticated and may hit rate limits faster, potentially causing 403 errors.');
-  }
-
-
-  const reposUrl = `https://api.github.com/users/${username}/repos?type=owner&sort=updated&per_page=100`; // Fetch more repos, sort by update
-
-  let repositories: GitHubRepository[] = [];
-
-  try {
-    console.log("Fetching GitHub repositories list...");
-    const response = await fetch(reposUrl, {
-      headers: {
-        Accept: 'application/vnd.github.v3+json',
-        ...(token && { Authorization: `Bearer ${token}` }), // Use Bearer token
+    const token = process.env.GITHUB_PAT;
+    const url = `${GITHUB_API_BASE}/users/${username}/repos?sort=pushed&per_page=100`; // Fetch more repos, sorted by push date
+    const headers: HeadersInit = {
+        'Accept': 'application/vnd.github.v3+json',
         'X-GitHub-Api-Version': '2022-11-28'
-      },
-      next: { revalidate: 3600 } // Revalidate repo list cache
-    });
+    };
 
-    if (!response.ok) {
-         // Handle 403 rate limit specifically by logging and returning empty
-         if (response.status === 403) {
-            const rateLimitRemaining = response.headers.get('x-ratelimit-remaining');
-            const rateLimitReset = response.headers.get('x-ratelimit-reset');
-            const resetTime = rateLimitReset ? new Date(parseInt(rateLimitReset) * 1000).toLocaleTimeString() : 'unknown';
-            console.error(`GitHub API Rate Limit Reached (403 Forbidden). Remaining: ${rateLimitRemaining ?? 'N/A'}, Resets at: ${resetTime}. Returning empty repo list.`);
-             // Instead of throwing, return empty array and let the component handle the error state
-             return []; // <<< Return empty array on rate limit
-         }
-         // Log other errors but also return empty to prevent stopping the page
-         console.error(`GitHub API request failed for repo list: ${response.status} ${response.statusText}. Returning empty repo list.`);
-         return []; // <<< Return empty array on other fetch errors
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    } else {
+        console.warn("GITHUB_PAT environment variable not set. Making unauthenticated request to GitHub API, which has lower rate limits.");
     }
 
-    const data: any[] = await response.json();
-    console.log(`Fetched ${data.length} repositories. Filtering forks and fetching READMEs...`);
+    console.log(`Fetching GitHub repositories for ${username} via API...`);
 
-    const repoPromises = data
-      .filter(repo => !repo.fork) // Exclude forks
-      .map(async (repo: any) => {
-          const readmeContent = await getReadmeContent(username, repo.name, token);
-          return {
-            id: repo.id.toString(),
-            name: repo.name,
-            description: repo.description || 'No description available.',
-            url: repo.html_url,
-            language: repo.language,
-            stars: repo.stargazers_count,
-            forks: repo.forks_count,
-            updatedAt: repo.updated_at,
-            readmeContent: readmeContent,
-          };
-      });
+    try {
+        const response = await fetch(url, { headers, next: { revalidate: 600 } }); // Cache repo list for 10 mins
 
-    console.log("Waiting for all README fetches to complete...");
-    repositories = await Promise.all(repoPromises);
-    console.log("All README fetches complete.");
+        if (!response.ok) {
+            // Provide more specific error for 403 (rate limit or bad token)
+            if (response.status === 403) {
+                const rateLimitRemaining = response.headers.get('x-ratelimit-remaining');
+                const rateLimitReset = response.headers.get('x-ratelimit-reset');
+                const resetTime = rateLimitReset ? new Date(parseInt(rateLimitReset) * 1000).toLocaleTimeString() : 'unknown';
+                console.error(`GitHub API Rate Limit Reached or PAT Invalid/Insufficient Permissions (403 Forbidden). Remaining: ${rateLimitRemaining ?? 'N/A'}, Resets at: ${resetTime}. Returning empty repo list. Check PAT validity and 'public_repo' scope.`);
+                // Return empty array to prevent crashing the component, UI should handle this state
+                return []; // <<< Return empty array on 403
+            }
+            // Throw generic error for other repo list fetch failures
+           throw new Error(`GitHub API request failed for repo list: ${response.status} ${response.statusText}`);
+       }
 
-    repositories.sort((a, b) => b.stars - a.stars);
+        const data: any[] = await response.json();
+         console.log(`Successfully fetched ${data.length} repositories via API.`);
 
-    console.log(`Returning ${repositories.length} non-fork repositories with READMEs.`);
-    return repositories;
+        // Filter out forks and map to our type, fetching READMEs in parallel
+        const repoPromises = data
+            .filter(repo => !repo.fork)
+            .map(async (repo): Promise<GitHubRepository | null> => {
+                const readmeContent = await getReadmeContent(username, repo.name, token);
+                return {
+                    id: repo.id.toString(), // Use API ID
+                    name: repo.name,
+                    title: repo.name, // Use name as title
+                    description: repo.description,
+                    url: repo.html_url,
+                    link: repo.html_url, // Use html_url as link
+                    language: repo.language,
+                    technologies: repo.language ? [repo.language] : [],
+                    stars: repo.stargazers_count,
+                    forks: repo.forks_count,
+                    updatedAt: repo.pushed_at, // Use pushed_at for last update
+                    readmeContent: readmeContent,
+                     // Generate placeholder image URL and AI hint based on language
+                     imageUrl: `https://picsum.photos/seed/${repo.name}/400/300`,
+                     aiHint: `${repo.language || 'code'} abstract technology`,
+                };
+            });
 
-  } catch (error: any) { // Catch any unexpected errors during the process
-    console.error("Unexpected error during GitHub repositories fetch process:", error);
-    // Re-throw or return empty array based on desired behavior for unexpected issues
-    // Returning empty here allows the page to potentially still render manual projects
-    return [];
-  }
+        const results = await Promise.all(repoPromises);
+        const validRepos = results.filter(repo => repo !== null) as GitHubRepository[];
+
+        console.log(`Processed ${validRepos.length} non-forked repositories.`);
+        return validRepos;
+
+    } catch (error: any) {
+        console.error("Error fetching GitHub repositories via API:", error.message);
+        // Return empty array on error so the UI doesn't crash
+        return [];
+    }
 }

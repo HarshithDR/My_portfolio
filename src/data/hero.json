@@ -1,0 +1,20 @@
+
+{
+  "greeting": "Hi, I am",
+  "name": "Harshith Deshalli Ravi",
+  "roles": [
+    { "left": "AI/ML Engineer", "right": "Crafting Intelligent Solutions" },
+    { "left": "Data Scientist", "right": "Building the Future with Data" },
+    { "left": "AI Specialist", "right": "Innovator in AI/ML Applications" },
+    { "left": "ML Engineer", "right": "Specializing in LLMs and RAG" }
+  ],
+  "buttonText": "Explore My Projects",
+  "buttonLink": "/projects",
+  "profileImage": {
+    "src": "/photo.jpeg",
+    "alt": "Harshith Deshalli Ravi Profile Picture",
+    "width": 160,
+    "height": 160,
+    "aiHint": "professional headshot developer"
+  }
+}

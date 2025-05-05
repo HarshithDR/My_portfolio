@@ -5,42 +5,8 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Briefcase } from 'lucide-react';
 import { motion } from 'framer-motion';
-import type { Experience } from '@/types';
-
-const experiences: Experience[] = [
-    {
-        title: 'AI/ML Intern',
-        company: 'Alpha Ventures',
-        location: 'Bengaluru',
-        period: 'May 2022 - Apr 2023',
-        description: [
-            'Pioneered a Random Forest Regressor, achieving 86% test accuracy in predictive performance for automated irrigation, working with team of 5 as project lead.',
-            'Optimized a smart sprinkler system reducing water consumption by 65% compared to traditional methods, outperforming competing “smart” solutions by 15%.',
-        ],
-    },
-    {
-        title: 'AI Research Intern',
-        company: 'Indian Institute of Science (IISc)',
-        location: 'Bengaluru',
-        period: 'Feb 2023 - Apr 2023',
-        description: [
-            'Engineered CNN models integrated with IoT robotics for real-time body-balancing task guidance, boosting system accuracy and improving the learning rate by 50%.',
-            'Optimized TensorFlow Lite deployment on Raspberry Pi with AWS S3 data storage to shrink model size and enable low-latency inference, reducing cloud round-trip by 40%.',
-            'Fine-tuned GPT-3 to serve as a virtual educator and applied customized reinforcement learning algorithms, enhancing skill acquisition by 60% through adaptive, real-time feedback.',
-        ],
-    },
-    {
-        title: 'Machine Learning Intern',
-        company: 'DHI Flagship and Innovation Centre',
-        location: 'Bengaluru',
-        period: 'Aug 2020 - Dec 2021',
-        description: [
-            'Developed an AI product to assist visually impaired individuals by improving accessibility to public transportation, currency recognition, and road-crossing safety through real-time object-detection and interaction.',
-            'Created YOLOv5 and advanced Computer-Vision models (Mobilenet) deployed on edge device, achieving 95% accuracy in identifying public buses and currency denominations in diverse conditions.',
-            'Designed and integrated an audio-based interaction system on the Raspberry-Pi, enhancing user experience by reducing response time by 30% and ensuring real-time communication.',
-        ],
-    },
-];
+// Removed Experience type import as it's inferred from JSON
+import experiencesData from '@/data/experience.json'; // Import JSON data
 
 const ExperienceSection: React.FC = () => {
    const cardVariants = {
@@ -55,19 +21,17 @@ const ExperienceSection: React.FC = () => {
     }),
   };
 
-
   return (
     <section
       id="experience"
-      className="py-12 md:py-16 px-4 md:px-8 bg-transparent scroll-mt-20" // Changed background to transparent
+      className="py-12 md:py-16 px-4 md:px-8 bg-transparent scroll-mt-20"
     >
       <div className="container mx-auto max-w-5xl">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Work Experience</h2>
         <div className="relative pl-8 md:pl-10 border-l-2 border-accent">
-           {/* Timeline line */}
-          {experiences.map((exp, index) => (
+          {experiencesData.map((exp, index) => ( // Use experiencesData from JSON
              <motion.div
-              key={index}
+              key={index} // Use index as key since IDs aren't in the JSON structure provided
               custom={index}
               variants={cardVariants}
               initial="hidden"
@@ -75,8 +39,7 @@ const ExperienceSection: React.FC = () => {
               viewport={{ once: true, amount: 0.3 }}
               className="mb-12 last:mb-0"
              >
-                {/* Timeline Dot */}
-               <span className="absolute -left-[1.1rem] md:-left-[1.35rem] mt-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-accent ring-8 ring-background"> {/* Changed ring color to background */}
+               <span className="absolute -left-[1.1rem] md:-left-[1.35rem] mt-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-accent ring-8 ring-background">
                  <Briefcase className="h-4 w-4 text-accent-foreground" />
                </span>
                <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 border border-border rounded-xl overflow-hidden bg-card ml-4 md:ml-6">

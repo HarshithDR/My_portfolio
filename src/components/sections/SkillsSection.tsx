@@ -1,16 +1,17 @@
+
 'use client';
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { motion } from 'framer-motion';
-import { Cpu, Database, Cloud, BrainCircuit, Code, Wrench, BarChart, GitBranch, Terminal, Sigma, Briefcase, Network, LineChart, Recycle, Boxes, Cog } from 'lucide-react'; // Added more icons
+import { Cpu, Database, Cloud, BrainCircuit, Code, Wrench, BarChart, GitBranch, Terminal, Sigma, Briefcase, Network, LineChart, Recycle, Boxes, Cog } from 'lucide-react';
+import skillData from '@/data/skills.json'; // Import JSON data
 
-// --- SVG Icon Components ---
-
+// --- SVG Icon Components (Keep these as they are needed for mapping) ---
 const PythonIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-blue-500 dark:text-blue-400">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-        <path fill="#FFD43B" d="M10 16.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5 1.5zm4-11c.83 0 1.5.67 1.5 1.5S14.83 8.5 14 8.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z"/>
+        <path fill="#FFD43B" d="M10 16.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5 1.5zm4-11c.83 0 1.5.67 1.5 1.5S14.83 8.5 14 8.5s-1.5-.67-1.5-1.5.67-1.5 1.5 1.5z"/>
         <path fill="#306998" d="M10.38 15.16l-1.1-3.33c-.17-.51.17-.93.71-.93h1.92c.55 0 .88.42.71.93l-1.1 3.33c-.38 1.15-1.15 1.15-1.53 0zm3.24-6.31l1.1 3.33c.17.51-.17.93-.71.93h-1.92c-.55 0-.88-.42-.71-.93l1.1-3.33c.38-1.15 1.15-1.15 1.53 0z"/>
     </svg>
 );
@@ -139,112 +140,18 @@ const RedisIcon = () => ( // Simple Redis icon
 );
 const QdrantIcon = () => <Database className="w-6 h-6 text-green-400" />; // Placeholder
 
-
-interface SkillCategory {
-  title: string;
-  icon: React.ComponentType<{ className?: string }>;
-  skills: { name: string; icon: React.ComponentType<{ className?: string }> }[];
-}
-
-const skillCategories: SkillCategory[] = [
-  {
-    title: 'Programming Languages',
-    icon: Code,
-    skills: [
-      { name: 'Python', icon: PythonIcon },
-      { name: 'C++', icon: CppIcon },
-      { name: 'JavaScript', icon: JsIcon },
-      { name: 'Shell', icon: ShellIcon },
-      { name: 'C', icon: CIcon },
-      { name: 'R', icon: RIcon }, // Added R
-    ],
-  },
-  {
-    title: 'AI/ML Frameworks & Libraries',
-    icon: BrainCircuit,
-    skills: [
-      { name: 'TensorFlow', icon: TensorFlowIcon },
-      { name: 'PyTorch', icon: PyTorchIcon },
-      { name: 'NLTK', icon: NltkIcon },
-      { name: 'Langchain', icon: LangchainIcon },
-      { name: 'Transformers', icon: HuggingFaceIcon },
-      { name: 'Hugging Face', icon: HuggingFaceIcon },
-      { name: 'OpenCV', icon: OpenCvIcon },
-      { name: 'Langgraph', icon: LangchainIcon },
-      { name: 'MCP', icon: BrainCircuit }, // Keeping generic
-      { name: 'Unsloth', icon: UnslothIcon }, // Added Unsloth
-    ],
-  },
-  {
-    title: 'AI/ML Concepts',
-    icon: BrainCircuit,
-    skills: [
-      { name: 'NLP', icon: NlpIcon },
-      { name: 'CNN', icon: CnnIcon },
-      { name: 'Reinforcement Learning', icon: RlIcon },
-      { name: 'LLM Fine-tuning', icon: LlmIcon },
-      { name: 'RAG / GraphRAG', icon: LlmIcon },
-      { name: 'Cross-Modal Learning', icon: BrainCircuit },
-      { name: 'PEFT', icon: LlmIcon },
-      { name: 'vLLM', icon: LlmIcon },
-      { name: 'Tokenization & Embeddings', icon: BrainCircuit },
-      { name: 'Diffusion Models', icon: DiffusionIcon }, // Added Diffusion Models
-      { name: 'Diffusion Fine Tuning', icon: DiffusionIcon }, // Added Diffusion Fine Tuning
-      { name: 'Llama.cpp', icon: LlamaCppIcon }, // Added Llama.cpp
-      { name: 'Vector Databases', icon: VectorDbIcon }, // Added Vector Databases (concept)
-      { name: 'Regression', icon: RegressionIcon }, // Added Regression
-      { name: 'Classification', icon: ClassificationIcon }, // Added Classification
-      { name: 'Clustering', icon: ClusteringIcon }, // Added Clustering
-      { name: 'Ensemble Methods', icon: EnsembleIcon }, // Added Ensemble Methods
-      { name: 'Backpropagation', icon: BackpropIcon }, // Added Backpropagation
-      { name: 'Neural Networks', icon: NeuralNetworkIcon }, // Added Neural Networks
-      { name: 'Model Pipeline', icon: ModelPipelineIcon }, // Added Model Pipeline
-      { name: 'Model Training', icon: ModelTrainingIcon }, // Added Model Training
-    ],
-  },
-  {
-    title: 'Cloud & DevOps/LLMOps',
-    icon: Cloud,
-    skills: [
-      { name: 'AWS (Sagemaker)', icon: AwsIcon },
-      { name: 'GCP', icon: GcpIcon },
-      { name: 'Git', icon: GitIcon },
-      { name: 'Docker', icon: DockerIcon },
-      { name: 'Jenkins', icon: JenkinsIcon },
-      { name: 'Kubeflow', icon: KubeflowIcon },
-      { name: 'Airflow', icon: AirflowIcon },
-      { name: 'MLflow', icon: MlflowIcon },
-      { name: 'WandB', icon: WandbIcon },
-      { name: 'IBM Cloud', icon: IbmCloudIcon },
-    ],
-  },
-  {
-    title: 'Databases & Big Data',
-    icon: Database,
-    skills: [
-      { name: 'Apache Spark', icon: SparkIcon },
-      { name: 'Hadoop', icon: HadoopIcon },
-      { name: 'SQL', icon: SqlIcon },
-      { name: 'MongoDB', icon: MongoDbIcon },
-      { name: 'Vector Databases', icon: VectorDbIcon }, // Added Vector Databases (specific techs)
-      { name: 'Faiss', icon: FaissIcon }, // Added Faiss
-      { name: 'Chroma', icon: ChromaIcon }, // Added Chroma
-      { name: 'Redis', icon: RedisIcon }, // Added Redis
-      { name: 'Qdrant', icon: QdrantIcon }, // Added Qdrant
-    ],
-  },
-  {
-    title: 'Mathematics & CS Fundamentals', // Updated category title
-    icon: Sigma,
-    skills: [
-      { name: 'Calculus', icon: CalculusIcon },
-      { name: 'Time Series', icon: TimeSeriesIcon },
-      { name: 'Advanced Statistics', icon: StatisticsIcon },
-      { name: 'Data Structures & Algorithms', icon: DsaIcon }, // Added DSA
-      { name: 'Linear Algebra', icon: LinearAlgebraIcon }, // Added Linear Algebra
-    ],
-  },
-];
+// Map icon names (from JSON) to the actual icon components
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Code, Python: PythonIcon, Cpp: CppIcon, Js: JsIcon, Shell: ShellIcon, C: CIcon, R: RIcon,
+  Wrench, TensorFlow: TensorFlowIcon, PyTorch: PyTorchIcon, Nltk: NltkIcon, Langchain: LangchainIcon, Transformers: HuggingFaceIcon, HuggingFace: HuggingFaceIcon, OpenCV: OpenCvIcon, Langgraph: LangchainIcon, MCP: BrainCircuit, Unsloth: UnslothIcon,
+  BrainCircuit, Nlp: NlpIcon, Rl: RlIcon, Llm: LlmIcon, Diffusion: DiffusionIcon, LlamaCpp: LlamaCppIcon,
+  Cog, Cnn: CnnIcon, Regression: RegressionIcon, Classification: ClassificationIcon, Clustering: ClusteringIcon, Ensemble: EnsembleIcon, Backprop: BackpropIcon, NeuralNetwork: NeuralNetworkIcon, ModelPipeline: ModelPipelineIcon, ModelTraining: ModelTrainingIcon,
+  Cloud, Aws: AwsIcon, Gcp: GcpIcon, Git: GitIcon, Docker: DockerIcon, Jenkins: JenkinsIcon, Kubeflow: KubeflowIcon, Airflow: AirflowIcon, Mlflow: MlflowIcon, Wandb: WandbIcon, IbmCloud: IbmCloudIcon,
+  Database, Spark: SparkIcon, Hadoop: HadoopIcon, Sql: SqlIcon, MongoDb: MongoDbIcon, VectorDb: VectorDbIcon, Faiss: FaissIcon, Chroma: ChromaIcon, Redis: RedisIcon, Qdrant: QdrantIcon,
+  Sigma, Calculus: CalculusIcon, TimeSeries: TimeSeriesIcon, Statistics: StatisticsIcon, Dsa: DsaIcon, LinearAlgebra: LinearAlgebraIcon,
+  // Add default icon if needed
+  Default: Wrench,
+};
 
 const SkillsSection: React.FC = () => {
   const cardVariants = {
@@ -262,7 +169,13 @@ const SkillsSection: React.FC = () => {
   const iconVariants = {
      hover: { scale: 1.15, rotate: 3 },
      tap: { scale: 0.9 }
-  }
+  };
+
+  // Function to get the icon component based on name, falling back to a default
+  const getIconComponent = (iconName: string | undefined): React.ComponentType<{ className?: string }> => {
+      return iconName ? (iconMap[iconName] || iconMap['Default']) : iconMap['Default'];
+  };
+
 
   return (
     <section
@@ -270,42 +183,48 @@ const SkillsSection: React.FC = () => {
       className="py-12 md:py-16 px-4 md:px-8 bg-transparent scroll-mt-20"
     >
       <div className="container mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Technical Skills</h2> {/* Increased margin-bottom */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"> {/* Increased gap */}
-          {skillCategories.map((category, index) => (
-            <motion.div
-              key={category.title}
-              custom={index}
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }} // Adjust viewport amount if needed
-            >
-              <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 h-full border border-border rounded-xl overflow-hidden bg-card">
-                <CardHeader className="flex flex-row items-center gap-3 p-4 bg-muted/30 border-b"> {/* Increased padding */}
-                   <category.icon className="w-6 h-6 text-accent" /> {/* Increased icon size */}
-                  <CardTitle className="text-lg md:text-xl font-semibold text-primary">{category.title}</CardTitle> {/* Adjusted text size */}
-                </CardHeader>
-                <CardContent className="p-4 md:p-5"> {/* Adjusted padding */}
-                  <ul className="flex flex-wrap gap-4"> {/* Increased gap */}
-                    {category.skills.map((skill) => (
-                      <motion.li
-                        key={skill.name}
-                        className="flex flex-col items-center text-center p-2 rounded-lg transition-colors duration-200 hover:bg-accent/10" // Increased padding
-                        whileHover="hover"
-                        whileTap="tap"
-                      >
-                         <motion.div variants={iconVariants} className="w-7 h-7 flex items-center justify-center mb-1"> {/* Increased icon container size and added margin-bottom */}
-                            <skill.icon /> {/* Render the specific SVG icon */}
-                         </motion.div>
-                        <span className="text-xs md:text-sm font-medium text-foreground">{skill.name}</span> {/* Adjusted text size */}
-                      </motion.li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Technical Skills</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {skillData.map((category, index) => {
+            const CategoryIcon = getIconComponent(category.icon); // Get category icon component
+            return (
+              <motion.div
+                key={category.title}
+                custom={index}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+              >
+                <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 h-full border border-border rounded-xl overflow-hidden bg-card">
+                  <CardHeader className="flex flex-row items-center gap-3 p-4 bg-muted/30 border-b">
+                     <CategoryIcon className="w-6 h-6 text-accent" />
+                    <CardTitle className="text-lg md:text-xl font-semibold text-primary">{category.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-4 md:p-5">
+                    <ul className="flex flex-wrap gap-4">
+                      {category.skills.map((skill) => {
+                         const SkillIcon = getIconComponent(skill.icon); // Get skill icon component
+                         return (
+                           <motion.li
+                             key={skill.name}
+                             className="flex flex-col items-center text-center p-2 rounded-lg transition-colors duration-200 hover:bg-accent/10"
+                             whileHover="hover"
+                             whileTap="tap"
+                           >
+                             <motion.div variants={iconVariants} className="w-7 h-7 flex items-center justify-center mb-1">
+                               <SkillIcon />
+                             </motion.div>
+                             <span className="text-xs md:text-sm font-medium text-foreground">{skill.name}</span>
+                           </motion.li>
+                         );
+                      })}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

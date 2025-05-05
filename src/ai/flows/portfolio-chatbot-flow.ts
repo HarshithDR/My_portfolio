@@ -8,7 +8,8 @@
  */
 
 import {ai} from '@/ai/ai-instance';
-import {getGitHubRepositories} from '@/services/github';
+// Update the import to use the GitHub API service
+import { getGitHubRepositories } from '@/services/github';
 import {getLinkedInProfile} from '@/services/linkedin';
 import {generateSystemPrompt} from '@/ai/prompts/chatbot-system-prompt';
 import {z} from 'genkit';
@@ -61,14 +62,15 @@ const portfolioChatbotFlow = ai.defineFlow<
     let githubReposSummary = 'GitHub information not available.';
     if (githubUsername) {
       try {
+        // Use the imported API function
         const repos = await getGitHubRepositories(githubUsername);
-        // Create a concise summary
-        githubReposSummary = `Key Repositories:\n${repos
-            .slice(0, 5) // Limit to top 5-10 for brevity
-            .map(repo => `- ${repo.name}: ${repo.description?.substring(0, 100) || ''}... (${repo.language}, ${repo.stars} stars)`)
+        // Create a concise summary using data available from the API
+        githubReposSummary = `Key Repositories (${repos.length} found):\n${repos
+            .slice(0, 5) // Limit to top 5 for brevity
+            .map(repo => `- ${repo.name}: ${repo.description?.substring(0, 100) || ''}... (${repo.language || 'N/A'}) - ⭐${repo.stars}`)
             .join('\n')}`;
       } catch (e) {
-        console.error('Error fetching GitHub repos for chatbot:', e);
+        console.error('Error fetching GitHub repos via API for chatbot:', e);
       }
     }
 
@@ -105,7 +107,7 @@ const portfolioChatbotFlow = ai.defineFlow<
         // Optional: Adjust temperature for creativity vs. factuality
         // temperature: 0.5,
       },
-      output: { // Define expected output format (though Gemini handles this less strictly than explicit prompt output schemas)
+      output: { // Define expected output format
          format: 'text'
       }
     });

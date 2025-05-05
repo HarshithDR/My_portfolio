@@ -5,45 +5,14 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Rss, Loader2, AlertCircle } from 'lucide-react'; // Added AlertCircle
+import { ExternalLink, Rss, Loader2, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import type { Blog } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { scrapeMediumPost } from '@/actions/scrape-medium-action'; // Import the server action
-import { format } from 'date-fns'; // For formatting the scraped date
-import { cn } from '@/lib/utils'; // Import cn utility
-
-// Static blog data (title, link, summary, id - date and imageUrl will be fetched)
-const staticBlogInfo = [
-  {
-    id: 'cuda-install-guide',
-    title: 'Installing CUDA is not that hard!',
-    link: 'https://medium.com/@harshithdr10/installing-cuda-is-not-that-hard-5886deff812c',
-    summary: 'A straightforward guide to installing NVIDIA CUDA drivers and toolkit, simplifying a process often perceived as complex.',
-    aiHint: 'nvidia cuda gpu code',
-  },
-   {
-    id: 'run-deepseek-android',
-    title: 'Run Deepseek-r1 model on android locally!',
-    link: 'https://medium.com/@harshithdr10/run-deepseek-model-on-android-locally-f0198948905a',
-    summary: 'Explore how to run the Deepseek-r1 language model directly on your Android device for local AI capabilities.',
-    aiHint: 'android phone ai model',
-  },
-   {
-    id: 'deepseek-qwen-broken',
-    title: 'Deepseek r1 qwen1.5b model is broken!',
-    link: 'https://medium.com/@harshithdr10/deepseek-r1-qwen1-5b-model-is-broken-8691ccbd4025',
-    summary: 'Investigating issues and potential problems encountered with the Deepseek r1 Qwen 1.5b language model.',
-    aiHint: 'broken code ai model',
-  },
-  {
-    id: 'vibe-coding-portfolio',
-    title: 'I tried Vibe Coding my web Portfolio!!!',
-    link: 'https://medium.com/@harshithdr10/the-intuitive-build-vibe-coding-a-portfolio-b21a08a8537a',
-    summary: 'Exploring an intuitive "vibe coding" approach to building a web portfolio, focusing on the creative process.',
-    aiHint: 'coding vibe programming',
-  },
-];
+import { scrapeMediumPost } from '@/actions/scrape-medium-action';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import staticBlogInfo from '@/data/blogs.json'; // Import static info from JSON
 
 // Client component to format date only after mount
 const ClientFormattedDate = ({ dateString, className }: { dateString: string | null, className?: string }) => {
@@ -52,25 +21,22 @@ const ClientFormattedDate = ({ dateString, className }: { dateString: string | n
     useEffect(() => {
         if (dateString) {
             try {
-                // Format the date after component mounts on the client
                 setFormattedDate(format(new Date(dateString), 'PPP')); // e.g., Jun 15, 2024
             } catch (e) {
                 console.error("Error formatting date:", e);
                 setFormattedDate("Invalid date");
             }
         } else {
-             setFormattedDate(null); // Handle null dateString
+             setFormattedDate(null);
         }
-    }, [dateString]); // Re-run effect if dateString changes
+    }, [dateString]);
 
     if (!formattedDate) {
-        // Render placeholder or nothing during SSR / initial render
         return <Skeleton className={cn("h-3 w-24", className)} />;
     }
 
     return <time dateTime={dateString || undefined} className={className}>{formattedDate}</time>;
 };
-
 
 const BlogSection: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -89,17 +55,15 @@ const BlogSection: React.FC = () => {
               const metadata = await scrapeMediumPost(info.link);
               return {
                   ...info,
-                  // Use scraped data, fallback to defaults/placeholders if scraping failed for this post
                   imageUrl: metadata.imageUrl ?? `https://picsum.photos/seed/${info.id}/600/400`,
-                  date: metadata.date ?? new Date(0).toISOString(), // Fallback date if needed
+                  date: metadata.date ?? new Date(0).toISOString(),
               };
           } catch (scrapeError) {
               console.warn(`Could not scrape metadata for ${info.title}:`, scrapeError);
-               // Return original info with placeholders if scraping failed
               return {
                   ...info,
                   imageUrl: `https://picsum.photos/seed/${info.id}/600/400`,
-                  date: new Date(0).toISOString(), // Consistent fallback date
+                  date: new Date(0).toISOString(),
               };
           }
         });
@@ -107,18 +71,16 @@ const BlogSection: React.FC = () => {
         const fetchedBlogs = await Promise.all(metadataPromises);
         console.log("Medium metadata fetch complete.");
 
-        // Sort blogs by the fetched date descending
         const sortedBlogs = fetchedBlogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
         setBlogs(sortedBlogs);
       } catch (err: any) {
         console.error("Error fetching or processing blog metadata:", err);
         setError("Failed to load blog post details. Please try again later.");
-        // Optionally set blogs to static info as fallback on total failure
         setBlogs(staticBlogInfo.map(info => ({
              ...info,
              imageUrl: `https://picsum.photos/seed/${info.id}/600/400`,
-             date: new Date(0).toISOString() // Fallback date
+             date: new Date(0).toISOString()
          })));
       } finally {
         setIsLoading(false);
@@ -126,7 +88,7 @@ const BlogSection: React.FC = () => {
     };
 
     fetchBlogMetadata();
-  }, []); // Run once on mount
+  }, []);
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -152,12 +114,12 @@ const BlogSection: React.FC = () => {
 
         {isLoading && (
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(staticBlogInfo.length || 1)].map((_, i) => ( // Use staticBlogInfo length
+              {[...Array(staticBlogInfo.length || 1)].map((_, i) => (
                  <Card key={i} className="shadow-lg border border-border rounded-xl overflow-hidden bg-card">
                     <Skeleton className="w-full h-48" />
                     <CardHeader className="p-4 md:p-6">
                        <Skeleton className="h-6 w-3/4 mb-2" />
-                       <Skeleton className="h-3 w-24" /> {/* Date skeleton */}
+                       <Skeleton className="h-3 w-24" />
                     </CardHeader>
                     <CardContent className="p-4 md:p-6 pt-0">
                         <Skeleton className="h-4 w-full mb-1" />
@@ -221,15 +183,14 @@ const BlogSection: React.FC = () => {
                         style={{ objectFit: 'cover' }}
                         data-ai-hint={blog.aiHint || 'abstract blog topic'}
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        priority={index < 3} // Prioritize loading images for the first few cards
-                        onError={(e) => { // Basic error handling: replace broken image source
+                        priority={index < 3}
+                        onError={(e) => {
                             e.currentTarget.src = `https://picsum.photos/seed/${blog.id}/600/400`;
-                            e.currentTarget.srcset = ""; // Clear srcset if source fails
+                            e.currentTarget.srcset = "";
                           }}
                       />
                     </div>
                   )}
-                   {/* Fallback if no image URL could be scraped */}
                   {!blog.imageUrl && (
                        <div className="relative w-full h-48 bg-gradient-to-br from-accent/10 to-primary/10 flex items-center justify-center">
                           <Rss className="h-12 w-12 text-muted-foreground opacity-50" />
@@ -239,7 +200,6 @@ const BlogSection: React.FC = () => {
                       <div>
                          <CardHeader className="p-0 mb-3">
                            <CardTitle className="text-lg md:text-xl font-semibold text-primary line-clamp-2">{blog.title}</CardTitle>
-                           {/* Use ClientFormattedDate for safe date formatting */}
                             <ClientFormattedDate
                              dateString={blog.date}
                              className="text-xs text-muted-foreground pt-1"

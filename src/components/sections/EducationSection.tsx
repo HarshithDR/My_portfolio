@@ -3,31 +3,16 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { GraduationCap, MapPin } from 'lucide-react'; // Use GraduationCap icon
+import { GraduationCap, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
-import type { Education } from '@/types';
+// Removed Education type import as it's inferred from JSON
+import educationData from '@/data/education.json'; // Import JSON data
 
-// Education data based on resume
-const educationData: Education[] = [
-  {
-    id: 'iit',
-    institution: 'Illinois Institute of Technology',
-    degree: 'Master of Science',
-    major: 'Data Science',
-    period: 'Aug 2023 – May 2025',
-    location: 'Chicago, IL', // Updated location based on IIT campus
-    icon: GraduationCap,
-  },
-  {
-    id: 'vtu',
-    institution: 'Visvesvaraya Technological University',
-    degree: 'Bachelor of Engineering',
-    major: 'Electrical and Electronics Engineering',
-    period: 'Aug 2019 – Jul 2023',
-    location: 'Bengaluru, India',
-    icon: GraduationCap,
-  },
-];
+// Map icon names to Lucide components
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+    GraduationCap: GraduationCap,
+    // Add other icons here if needed
+};
 
 const EducationSection: React.FC = () => {
   const cardVariants = {
@@ -42,6 +27,11 @@ const EducationSection: React.FC = () => {
     }),
   };
 
+  const getIconComponent = (iconName: string | undefined): React.ComponentType<{ className?: string }> => {
+      return iconName ? (iconMap[iconName] || GraduationCap) : GraduationCap; // Default to GraduationCap
+  };
+
+
   return (
     <section
       id="education"
@@ -52,36 +42,37 @@ const EducationSection: React.FC = () => {
           <GraduationCap className="h-8 w-8 text-accent" /> Education
         </h2>
         <div className="space-y-8">
-          {educationData.map((edu, index) => (
-            <motion.div
-              key={edu.id}
-              custom={index}
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 border border-border rounded-xl overflow-hidden bg-card">
-                <CardHeader className="p-6 bg-muted/30 border-b">
-                  <div className="flex items-center gap-4">
-                     {edu.icon && <edu.icon className="h-8 w-8 text-accent flex-shrink-0" />}
-                     <div>
-                        <CardTitle className="text-xl md:text-2xl font-semibold text-primary">{edu.institution}</CardTitle>
-                        <CardDescription className="text-sm text-muted-foreground flex items-center gap-1 pt-1">
-                            <MapPin className="h-3 w-3" /> {edu.location}
-                        </CardDescription>
-                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-6 space-y-2">
-                  <p className="text-lg font-medium text-foreground">{edu.degree} in {edu.major}</p>
-                  <p className="text-sm text-muted-foreground">{edu.period}</p>
-                  {/* Add any additional details like GPA or relevant coursework if needed */}
-                   {/* <p className="text-sm text-foreground/80 mt-2">Relevant Coursework: Advanced Algorithms, Machine Learning, Big Data Technologies...</p> */}
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+          {educationData.map((edu, index) => {
+            const EduIcon = getIconComponent(edu.icon); // Get the icon component
+            return (
+                <motion.div
+                  key={edu.id}
+                  custom={index}
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.3 }}
+                >
+                  <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 border border-border rounded-xl overflow-hidden bg-card">
+                    <CardHeader className="p-6 bg-muted/30 border-b">
+                      <div className="flex items-center gap-4">
+                         <EduIcon className="h-8 w-8 text-accent flex-shrink-0" />
+                         <div>
+                            <CardTitle className="text-xl md:text-2xl font-semibold text-primary">{edu.institution}</CardTitle>
+                            <CardDescription className="text-sm text-muted-foreground flex items-center gap-1 pt-1">
+                                <MapPin className="h-3 w-3" /> {edu.location}
+                            </CardDescription>
+                         </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="p-6 space-y-2">
+                      <p className="text-lg font-medium text-foreground">{edu.degree} in {edu.major}</p>
+                      <p className="text-sm text-muted-foreground">{edu.period}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

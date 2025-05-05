@@ -1,0 +1,31 @@
+
+[
+  {
+    "id": "cuda-install-guide",
+    "title": "Installing CUDA is not that hard!",
+    "link": "https://medium.com/@harshithdr10/installing-cuda-is-not-that-hard-5886deff812c",
+    "summary": "A straightforward guide to installing NVIDIA CUDA drivers and toolkit, simplifying a process often perceived as complex.",
+    "aiHint": "nvidia cuda gpu code"
+  },
+   {
+    "id": "run-deepseek-android",
+    "title": "Run Deepseek-r1 model on android locally!",
+    "link": "https://medium.com/@harshithdr10/run-deepseek-model-on-android-locally-f0198948905a",
+    "summary": "Explore how to run the Deepseek-r1 language model directly on your Android device for local AI capabilities.",
+    "aiHint": "android phone ai model"
+  },
+   {
+    "id": "deepseek-qwen-broken",
+    "title": "Deepseek r1 qwen1.5b model is broken!",
+    "link": "https://medium.com/@harshithdr10/deepseek-r1-qwen1-5b-model-is-broken-8691ccbd4025",
+    "summary": "Investigating issues and potential problems encountered with the Deepseek r1 Qwen 1.5b language model.",
+    "aiHint": "broken code ai model"
+  },
+  {
+    "id": "vibe-coding-portfolio",
+    "title": "I tried Vibe Coding my web Portfolio!!!",
+    "link": "https://medium.com/@harshithdr10/the-intuitive-build-vibe-coding-a-portfolio-b21a08a8537a",
+    "summary": "Exploring an intuitive \"vibe coding\" approach to building a web portfolio, focusing on the creative process.",
+    "aiHint": "coding vibe programming"
+  }
+]

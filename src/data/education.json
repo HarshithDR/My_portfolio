@@ -1,0 +1,21 @@
+
+[
+  {
+    "id": "iit",
+    "institution": "Illinois Institute of Technology",
+    "degree": "Master of Science",
+    "major": "Data Science",
+    "period": "Aug 2023 – May 2025",
+    "location": "Chicago, IL",
+    "icon": "GraduationCap"
+  },
+  {
+    "id": "vtu",
+    "institution": "Visvesvaraya Technological University",
+    "degree": "Bachelor of Engineering",
+    "major": "Electrical and Electronics Engineering",
+    "period": "Aug 2019 – Jul 2023",
+    "location": "Bengaluru, India",
+    "icon": "GraduationCap"
+  }
+]

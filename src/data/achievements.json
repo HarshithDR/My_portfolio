@@ -1,0 +1,65 @@
+
+{
+  "achievements": [
+    {
+      "id": "wildhacks-mlh-winner",
+      "title": "Wild Hacks MLH Hackathon Winner (1st Place)",
+      "description": "Won 1st place in Wild Hacks MLH 2025. Built an edge device for long-distance forest fire detection, using a fine-tuned GenAI model deployed on Raspberry Pi.",
+      "icon": "Award"
+    },
+    {
+      "id": "orahacks-winner",
+      "title": "OraHacks Hackathon Winner (1st Place)",
+      "description": "Won 1st place in Chicago OraHacks 2024. Constructed a multimodal AI video generation system integrating news scraping and rapid video production, finishing in 48 hours.",
+      "icon": "Award"
+    },
+    {
+      "id": "tiktok-finalist",
+      "title": "TikTok TechJam Hackathon Finalist (Top 10)",
+      "description": "Reached Top 10 in TikTok TechJam 2024 (USA section). Secured position for Gen AI project, ranking among the top 0.3% of global participants.",
+      "icon": "Award"
+    },
+    {
+      "id": "googleai-finalist",
+      "title": "Google AI Hackathon Finalist (Top 25)",
+      "description": "Reached top 25 in Google AI hackathon 2024.",
+      "icon": "Award"
+    },
+    {
+      "id": "ksit-runnerup",
+      "title": "KSIT State Hackathon Runner-up (2nd Place)",
+      "description": "Won 2nd place in Ksit State India Hackathon 2022.",
+      "icon": "Award"
+    },
+    {
+      "id": "global-third",
+      "title": "Global Academy State Hackathon (3rd Place)",
+      "description": "Won 3rd place in Global Academy State India Hackathon 2022.",
+      "icon": "Award"
+    }
+  ],
+  "attendedHackathons": [
+    "Northwestern University Hacks - 2025",
+    "Wild Hacks MLH - 2025",
+    "TikTok TechJam - 2024",
+    "Snowflake-Streamlit Hackathon - 2024",
+    "Microsoft Generative AI Hackathon - 2024",
+    "Google AI Hackathon - 2024",
+    "Scarlet-Hacks - 2024",
+    "OraHacks Chicago - 2024",
+    "KSIT Gamathon - 2023",
+    "Global Academy of Technology State India Hackathon - 2023",
+    "Mysore Institute of Technology State India Hackathon - 2022",
+    "Reva Hackathon - 2022",
+    "KSIT State India Hackathon - 2022",
+    "Global Academy of Technology State India Hackathon - 2022"
+  ],
+  "certifications": [
+    { "name": "Fine-tuning Large Language Models", "issuer": "DeepLearning.AI" },
+    { "name": "Building Systems with the ChatGPT API", "issuer": "DeepLearning.AI" },
+    { "name": "LangChain for LLM Application Development", "issuer": "DeepLearning.AI" },
+    { "name": "Building Generative AI Applications with Gradio", "issuer": "DeepLearning.AI" },
+    { "name": "Docker Essentials", "issuer": "Udemy / LinuxAcademy" },
+    { "name": "Retrieval Augmented Generation (RAG)", "issuer": "Udemy / DeepLearning.AI" }
+  ]
+}
