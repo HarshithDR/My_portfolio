@@ -1,3 +1,4 @@
+
 import type React from 'react';
 
 // Define ProjectCategory type based on the categories array including new ones
@@ -10,10 +11,11 @@ export interface Project {
   technologies: string[];
   imageUrl: string;
   aiHint?: string;
-  link?: string;
+  link?: string | null; // Allow null for link
   // Changed to an array of categories
   categories?: ProjectCategory[];
   category?: ProjectCategory; // Keep single category for backward compatibility with initial JSON load if needed, but prioritize 'categories'
+  readmeContent?: string | null; // Add readme content for manual projects too
 }
 
 // Type specifically for GitHub repository data fetched from the API
@@ -21,7 +23,7 @@ export interface GitHubRepository {
   id: string;
   name: string;
   description: string | null;
-  url: string;
+  url: string; // GitHub URL
   language: string | null;
   stars: number;
   forks: number;
@@ -39,11 +41,11 @@ export interface GitHubRepository {
 
 
 export interface Blog {
-  id: string; // Use Medium post GUID or link as ID
+  id: string;
   title: string;
-  date: string; // ISO date string
-  summary: string; // Extracted from contentSnippet or content
-  imageUrl?: string; // Optional image URL (may not always be present/easily extractable)
+  date: string | null; // Date is now fetched, can be null initially or if scraping fails
+  summary: string;
+  imageUrl?: string | null; // Image URL is fetched, can be null
   aiHint?: string;
   link: string; // Link to the full blog post on Medium
 }

@@ -1,3 +1,4 @@
+
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
@@ -16,8 +17,15 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      { // Add this block to allow images from miro.medium.com
+        protocol: 'https',
+        hostname: 'miro.medium.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
 
 export default nextConfig;
+

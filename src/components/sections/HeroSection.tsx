@@ -90,7 +90,7 @@ const HeroSection: React.FC = () => {
             transition={{ delay: 0.1, duration: 0.5 }}
             className="relative z-10 mb-4" // Added margin-bottom
         >
-            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-primary shadow-lg">
+          <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-primary shadow-lg">
           <Image
             src="/photo.jpeg"
             alt="Harshith Deshalli Ravi Profile Picture"
@@ -98,9 +98,8 @@ const HeroSection: React.FC = () => {
             height={160}
             className="object-cover w-full h-full"
             priority
-          />
-        </div>
-
+            />
+          </div>
         </motion.div>
 
       {/* Greeting and Name Container */}

@@ -12,7 +12,7 @@ interface MathSymbolBackgroundProps {
   fontSize?: number;
 }
 
-// Common AI/ML symbols and short equations/formulas
+// Common AI/ML symbols and short equations/formulas - Expanded with more complex examples
 const symbols = [
   'σ(x) = 1 / (1 + e⁻ˣ)', // Sigmoid Function
   'ReLU(x) = max(0, x)', // ReLU Function
@@ -33,13 +33,27 @@ const symbols = [
   'Cosine Sim = (A·B) / (||A|| ||B||)', // Cosine Similarity
   'NLP', 'CNN', 'RNN', 'LSTM', 'Transformer', 'RAG', 'LLM', 'GPT', // Acronyms still okay
   '∫ f(x) dx', 'Σ', 'Π', '∇', '∂', // Basic Math Symbols
-  'α', 'β', 'λ', 'η', 'θ', 'μ', 'ω', 'σ', // Greek Letters
+  'α', 'β', 'λ', 'η', 'θ', 'μ', 'ω', 'σ', 'ε', // Greek Letters
+  'Attention(Q, K, V) = softmax(QKᵀ/√dₖ)V', // Transformer Attention
+  'Dₖₗ(P||Q) = Σ P(x) log(P(x)/Q(x))', // KL Divergence
+  'H(X) = -Σ P(x) log P(x)',           // Entropy
+  'IG(D, a) = H(D) - Σ |Dᵥ|/|D| * H(Dᵥ)', // Information Gain
+  'Gini(D) = 1 - Σ pᵢ²',             // Gini Impurity
+  'Adam: θ ← θ - η * m̂ / (√v̂ + ε)',  // Adam Optimizer (simplified)
+  'hₜ = tanh(Wₓₓxₜ + W<0xE2><0x82><0x95>ₕhₜ₋₁ + b<0xE2><0x82><0x95>)', // RNN Hidden State
+  'fₜ = σ(W<0xE2><0x82><0x91>[hₜ₋₁, xₜ] + b<0xE2><0x82><0x91>)',   // LSTM Forget Gate
+  'N(x|μ, σ²) = 1/√(2πσ²) * e^(-(x-μ)²/(2σ²))', // Gaussian PDF
+  'P(C|X) ∝ P(C) Π P(xᵢ|C)',           // Naive Bayes Classifier
+  'SVM: min ||w||² + C Σ ξᵢ',          // SVM Objective (simplified)
+  'PCA: Find PCs maximizing variance',    // PCA Concept
+  'GAN: min<0xE2><0x82><0x9A> max<0xE2><0x82><0x8D> V(D, G)',           // GAN Objective (conceptual)
+  'Word2Vec Skip-gram: Σ log P(w<0xE1><0xB5><0xA6>₊ⱼ|w<0xE1><0xB5><0xA6>)', // Skip-gram Objective (simplified)
 ];
 
 
 const MathSymbolBackground: React.FC<MathSymbolBackgroundProps> = ({
   className,
-  symbolColor = 'hsl(var(--foreground) / 0.6)', // Use the passed color or default - INCREASED OPACITY
+  symbolColor = 'hsl(var(--foreground) / 0.6)', // Use the passed color or default - Increased opacity
   symbolCount = 30,
   speed = 0.5,
   fontSize = 20,
@@ -77,11 +91,12 @@ const MathSymbolBackground: React.FC<MathSymbolBackgroundProps> = ({
         this.vx = (Math.random() - 0.5) * speed;
         this.vy = (Math.random() - 0.5) * speed;
         this.symbol = symbols[Math.floor(Math.random() * symbols.length)];
-        const lengthFactor = Math.max(0.6, 1 - (this.symbol.length / 40));
-        this.size = (fontSize + Math.random() * (fontSize * 0.3)) * lengthFactor;
-        this.opacity = 0.3 + Math.random() * 0.3; // Increased base opacity and range
-        this.rotation = Math.random() * Math.PI * 0.2 - Math.PI * 0.1;
-        this.rotationSpeed = (Math.random() - 0.5) * 0.001;
+        // Adjust size based on symbol length to make longer equations slightly smaller
+        const lengthFactor = Math.max(0.5, 1 - (this.symbol.length / 50)); // Adjust divisor as needed
+        this.size = (fontSize + Math.random() * (fontSize * 0.3)) * lengthFactor; // Use passed fontSize
+        this.opacity = 0.4 + Math.random() * 0.3; // Make them slightly more opaque
+        this.rotation = Math.random() * Math.PI * 0.1 - Math.PI * 0.05; // Reduce rotation range
+        this.rotationSpeed = (Math.random() - 0.5) * 0.0005; // Slow down rotation
         this.color = particleColor; // Store the color
       }
 
@@ -90,10 +105,14 @@ const MathSymbolBackground: React.FC<MathSymbolBackgroundProps> = ({
         this.y += this.vy;
         this.rotation += this.rotationSpeed;
 
-        if (this.x < -this.size * 5) this.x = w + this.size * 5;
-        if (this.x > w + this.size * 5) this.x = -this.size * 5;
-        if (this.y < -this.size * 2) this.y = h + this.size * 2;
-        if (this.y > h + this.size * 2) this.y = -this.size * 2;
+        // Adjust boundaries based on estimated max symbol width/height
+        const estimatedWidth = this.size * (this.symbol.length * 0.6); // Rough estimate
+        const estimatedHeight = this.size;
+
+        if (this.x < -estimatedWidth) this.x = w + estimatedWidth;
+        if (this.x > w + estimatedWidth) this.x = -estimatedWidth;
+        if (this.y < -estimatedHeight) this.y = h + estimatedHeight;
+        if (this.y > h + estimatedHeight) this.y = -estimatedHeight;
       }
 
       draw(context: CanvasRenderingContext2D) {
@@ -103,7 +122,7 @@ const MathSymbolBackground: React.FC<MathSymbolBackgroundProps> = ({
 
         context.globalAlpha = this.opacity;
         context.fillStyle = this.color; // Use the particle's color
-        context.font = `${this.size}px 'Courier New', monospace`;
+        context.font = `${this.size}px 'Courier New', monospace`; // Consistent monospace font
         context.textAlign = 'center';
         context.textBaseline = 'middle';
         context.fillText(this.symbol, 0, 0);
@@ -157,7 +176,7 @@ const MathSymbolBackground: React.FC<MathSymbolBackgroundProps> = ({
         cancelAnimationFrame(animationFrameIdRef.current);
       }
     };
-    // Re-run effect if symbolColor changes
+    // Re-run effect if symbolColor, count, speed, or fontSize changes
   }, [symbolColor, symbolCount, speed, fontSize]);
 
 
@@ -169,3 +188,4 @@ const MathSymbolBackground: React.FC<MathSymbolBackgroundProps> = ({
 };
 
 export default MathSymbolBackground;
+

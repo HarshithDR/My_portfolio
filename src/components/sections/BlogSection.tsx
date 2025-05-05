@@ -5,44 +5,71 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Rss, Loader2 } from 'lucide-react';
+import { ExternalLink, Rss, Loader2, AlertCircle } from 'lucide-react'; // Added AlertCircle
 import { motion } from 'framer-motion';
 import type { Blog } from '@/types';
-// Removed Medium service import
-import { Skeleton } from '@/components/ui/skeleton'; // Import Skeleton
-import ClientFormattedDate from '@/components/ClientFormattedDate'; // Import the new component
+import { Skeleton } from '@/components/ui/skeleton';
+import { scrapeMediumPost } from '@/actions/scrape-medium-action'; // Import the server action
+import { format } from 'date-fns'; // For formatting the scraped date
+import { cn } from '@/lib/utils'; // Import cn utility
 
-// Static blog data provided by the user
-const staticBlogs: Blog[] = [
+// Static blog data (title, link, summary, id - date and imageUrl will be fetched)
+const staticBlogInfo = [
   {
     id: 'cuda-install-guide',
     title: 'Installing CUDA is not that hard!',
     link: 'https://medium.com/@harshithdr10/installing-cuda-is-not-that-hard-5886deff812c',
-    date: '2024-01-15T00:00:00Z', // Assign a placeholder date
     summary: 'A straightforward guide to installing NVIDIA CUDA drivers and toolkit, simplifying a process often perceived as complex.',
-    imageUrl: `https://picsum.photos/seed/cuda-install/600/400`, // Placeholder image
     aiHint: 'nvidia cuda gpu code',
   },
    {
     id: 'run-deepseek-android',
     title: 'Run Deepseek-r1 model on android locally!',
     link: 'https://medium.com/@harshithdr10/run-deepseek-model-on-android-locally-f0198948905a',
-    date: '2024-03-10T00:00:00Z', // Placeholder date
     summary: 'Explore how to run the Deepseek-r1 language model directly on your Android device for local AI capabilities.',
-    imageUrl: `https://picsum.photos/seed/deepseek-android/600/400`,
     aiHint: 'android phone ai model',
   },
    {
     id: 'deepseek-qwen-broken',
     title: 'Deepseek r1 qwen1.5b model is broken!',
     link: 'https://medium.com/@harshithdr10/deepseek-r1-qwen1-5b-model-is-broken-8691ccbd4025',
-    date: '2024-04-05T00:00:00Z', // Placeholder date
     summary: 'Investigating issues and potential problems encountered with the Deepseek r1 Qwen 1.5b language model.',
-    imageUrl: `https://picsum.photos/seed/deepseek-broken/600/400`,
     aiHint: 'broken code ai model',
   },
-  // Add more static blog posts here if needed in the future
+  {
+    id: 'vibe-coding-portfolio',
+    title: 'I tried Vibe Coding my web Portfolio!!!',
+    link: 'https://medium.com/@harshithdr10/the-intuitive-build-vibe-coding-a-portfolio-b21a08a8537a',
+    summary: 'Exploring an intuitive "vibe coding" approach to building a web portfolio, focusing on the creative process.',
+    aiHint: 'coding vibe programming',
+  },
 ];
+
+// Client component to format date only after mount
+const ClientFormattedDate = ({ dateString, className }: { dateString: string | null, className?: string }) => {
+    const [formattedDate, setFormattedDate] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (dateString) {
+            try {
+                // Format the date after component mounts on the client
+                setFormattedDate(format(new Date(dateString), 'PPP')); // e.g., Jun 15, 2024
+            } catch (e) {
+                console.error("Error formatting date:", e);
+                setFormattedDate("Invalid date");
+            }
+        } else {
+             setFormattedDate(null); // Handle null dateString
+        }
+    }, [dateString]); // Re-run effect if dateString changes
+
+    if (!formattedDate) {
+        // Render placeholder or nothing during SSR / initial render
+        return <Skeleton className={cn("h-3 w-24", className)} />;
+    }
+
+    return <time dateTime={dateString || undefined} className={className}>{formattedDate}</time>;
+};
 
 
 const BlogSection: React.FC = () => {
@@ -51,20 +78,55 @@ const BlogSection: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Simulate loading static data
-    setIsLoading(true);
-    setError(null);
-    // Use a timeout to mimic network request time if desired, otherwise load instantly
-    const timer = setTimeout(() => {
-        // Sort blogs by date descending before setting state
-        const sortedBlogs = staticBlogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const fetchBlogMetadata = async () => {
+      setIsLoading(true);
+      setError(null);
+      console.log("Starting Medium metadata fetch...");
+
+      try {
+        const metadataPromises = staticBlogInfo.map(async (info) => {
+          try {
+              const metadata = await scrapeMediumPost(info.link);
+              return {
+                  ...info,
+                  // Use scraped data, fallback to defaults/placeholders if scraping failed for this post
+                  imageUrl: metadata.imageUrl ?? `https://picsum.photos/seed/${info.id}/600/400`,
+                  date: metadata.date ?? new Date(0).toISOString(), // Fallback date if needed
+              };
+          } catch (scrapeError) {
+              console.warn(`Could not scrape metadata for ${info.title}:`, scrapeError);
+               // Return original info with placeholders if scraping failed
+              return {
+                  ...info,
+                  imageUrl: `https://picsum.photos/seed/${info.id}/600/400`,
+                  date: new Date(0).toISOString(), // Consistent fallback date
+              };
+          }
+        });
+
+        const fetchedBlogs = await Promise.all(metadataPromises);
+        console.log("Medium metadata fetch complete.");
+
+        // Sort blogs by the fetched date descending
+        const sortedBlogs = fetchedBlogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
         setBlogs(sortedBlogs);
+      } catch (err: any) {
+        console.error("Error fetching or processing blog metadata:", err);
+        setError("Failed to load blog post details. Please try again later.");
+        // Optionally set blogs to static info as fallback on total failure
+        setBlogs(staticBlogInfo.map(info => ({
+             ...info,
+             imageUrl: `https://picsum.photos/seed/${info.id}/600/400`,
+             date: new Date(0).toISOString() // Fallback date
+         })));
+      } finally {
         setIsLoading(false);
-    }, 500); // 0.5 second delay, adjust as needed
+      }
+    };
 
-    return () => clearTimeout(timer); // Cleanup timer on unmount
-
-  }, []);
+    fetchBlogMetadata();
+  }, []); // Run once on mount
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -80,8 +142,8 @@ const BlogSection: React.FC = () => {
 
   return (
     <section
-      id="blogs" // Changed id to blogs
-      className="py-12 md:py-16 px-4 md:px-8 bg-transparent scroll-mt-20" // Changed background to transparent
+      id="blogs"
+      className="py-12 md:py-16 px-4 md:px-8 bg-transparent scroll-mt-20"
     >
       <div className="container mx-auto max-w-6xl">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary flex items-center justify-center gap-3">
@@ -90,19 +152,19 @@ const BlogSection: React.FC = () => {
 
         {isLoading && (
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(staticBlogs.length || 1)].map((_, i) => ( // Use staticBlogs length for skeleton count
+              {[...Array(staticBlogInfo.length || 1)].map((_, i) => ( // Use staticBlogInfo length
                  <Card key={i} className="shadow-lg border border-border rounded-xl overflow-hidden bg-card">
                     <Skeleton className="w-full h-48" />
-                    <CardHeader>
+                    <CardHeader className="p-4 md:p-6">
                        <Skeleton className="h-6 w-3/4 mb-2" />
-                       <Skeleton className="h-4 w-1/4" />
+                       <Skeleton className="h-3 w-24" /> {/* Date skeleton */}
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="p-4 md:p-6 pt-0">
                         <Skeleton className="h-4 w-full mb-1" />
                         <Skeleton className="h-4 w-full mb-1" />
                         <Skeleton className="h-4 w-2/3" />
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="p-4 md:p-6 pt-0">
                          <Skeleton className="h-8 w-24" />
                     </CardFooter>
                  </Card>
@@ -110,20 +172,23 @@ const BlogSection: React.FC = () => {
            </div>
         )}
 
-        {error && (
-          <Card className="text-center p-8 bg-card border border-destructive rounded-xl shadow-md">
-              <CardTitle className="text-xl text-destructive">{error}</CardTitle>
-              <CardDescription className="mt-2">
-                  Please check your internet connection or try again later.
+        {error && !isLoading && (
+          <Card className="text-center p-8 bg-destructive/10 border border-destructive rounded-xl shadow-md">
+              <div className="flex justify-center items-center mb-3">
+                 <AlertCircle className="h-8 w-8 text-destructive mr-3" />
+                 <CardTitle className="text-xl text-destructive">Error Loading Blogs</CardTitle>
+              </div>
+              <CardDescription className="mt-2 text-destructive/90">
+                  {error}
               </CardDescription>
           </Card>
         )}
 
         {!isLoading && !error && blogs.length === 0 && (
             <Card className="text-center p-8 bg-card border rounded-xl shadow-md">
-                <CardTitle className="text-xl text-muted-foreground">No Blog Posts Yet</CardTitle>
+                <CardTitle className="text-xl text-muted-foreground">No Blog Posts Found</CardTitle>
                 <CardDescription className="mt-2">
-                    Looks like I haven't posted anything on Medium yet. Stay tuned!
+                    Could not find any blog posts at the moment.
                 </CardDescription>
                  <div className="mt-6 flex justify-center">
                      <motion.div
@@ -156,10 +221,15 @@ const BlogSection: React.FC = () => {
                         style={{ objectFit: 'cover' }}
                         data-ai-hint={blog.aiHint || 'abstract blog topic'}
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        priority={index < 3} // Prioritize loading images for the first few cards
+                        onError={(e) => { // Basic error handling: replace broken image source
+                            e.currentTarget.src = `https://picsum.photos/seed/${blog.id}/600/400`;
+                            e.currentTarget.srcset = ""; // Clear srcset if source fails
+                          }}
                       />
                     </div>
                   )}
-                   {/* Fallback if no image */}
+                   {/* Fallback if no image URL could be scraped */}
                   {!blog.imageUrl && (
                        <div className="relative w-full h-48 bg-gradient-to-br from-accent/10 to-primary/10 flex items-center justify-center">
                           <Rss className="h-12 w-12 text-muted-foreground opacity-50" />
@@ -169,8 +239,8 @@ const BlogSection: React.FC = () => {
                       <div>
                          <CardHeader className="p-0 mb-3">
                            <CardTitle className="text-lg md:text-xl font-semibold text-primary line-clamp-2">{blog.title}</CardTitle>
-                           {/* Use ClientFormattedDate component here */}
-                           <ClientFormattedDate
+                           {/* Use ClientFormattedDate for safe date formatting */}
+                            <ClientFormattedDate
                              dateString={blog.date}
                              className="text-xs text-muted-foreground pt-1"
                            />

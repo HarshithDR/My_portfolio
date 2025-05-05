@@ -1,9 +1,11 @@
+
 'use client'; // Keep 'use client' for hooks like useIsMobile, useState, useEffect
 
 import type { Metadata } from 'next'; // Keep type import for potential static metadata
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { ThemeProvider, useTheme } from '@/components/layout/ThemeProvider'; // Import ThemeProvider and useTheme
+import { useTheme } from '@/components/layout/ThemeProvider'; // Import useTheme
+import ClientThemeProvider from '@/components/layout/ClientThemeProvider'; // Import Client-only wrapper
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from '@/lib/utils';
 import { SidebarProvider, useSidebar } from '@/components/ui/sidebar'; // Import useSidebar
@@ -14,6 +16,7 @@ import { useIsMobile } from '@/hooks/use-mobile'; // Import useIsMobile hook
 import React, { useState, useEffect, useMemo, Suspense } from 'react'; // Import React hooks and Suspense
 import { Skeleton } from '@/components/ui/skeleton'; // Import Skeleton
 import MathSymbolBackground from '@/components/layout/MathSymbolBackground'; // Import background
+import { Analytics } from "@vercel/analytics/react"; // Import Vercel Analytics
 
 const inter = Inter({
   subsets: ['latin'],
@@ -80,15 +83,16 @@ const LoadingPlaceholder = () => (
   <div className="flex flex-col md:flex-row w-full min-h-screen">
     {/* Placeholder Header (Mobile) */}
     <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b bg-background px-4 md:hidden w-full">
-        <Skeleton className="h-6 w-32" />
-        <Skeleton className="h-6 w-6" />
+        <Skeleton className="h-6 w-6" /> {/* Menu icon placeholder */}
+        <Skeleton className="h-6 w-40" /> {/* Title placeholder */}
+        <Skeleton className="h-6 w-11" /> {/* Theme toggle placeholder */}
     </header>
     {/* Placeholder Sidebar (Desktop) */}
     <div className="hidden md:flex flex-col w-64 h-screen border-r bg-sidebar p-2">
        <div className="flex flex-col p-2"> {/* Updated header structure */}
          <div className="flex items-center justify-between w-full mb-2">
             <Skeleton className="h-6 w-32"/>
-            <Skeleton className="h-6 w-6"/>
+            {/* No trigger skeleton needed here */}
          </div>
           <div className="w-full flex justify-center pt-1"> {/* Updated theme toggle position */}
              <Skeleton className="h-6 w-11" />
@@ -122,20 +126,29 @@ const LoadingPlaceholder = () => (
   </div>
 );
 
-
-// Wrapper component to access Sidebar context and Theme context
-const MainContent = ({ children }: { children: React.ReactNode }) => {
-  const { state: sidebarState } = useSidebar();
-  const { resolvedTheme } = useTheme(); // Get resolved theme
-  const isMobile = useIsMobile();
+// Helper hook to access resolved theme safely on client
+const useClientResolvedTheme = () => {
+  const { resolvedTheme } = useTheme();
+  const [clientResolvedTheme, setClientResolvedTheme] = useState<string | undefined>(undefined);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-  }, []);
+    setClientResolvedTheme(resolvedTheme);
+  }, [resolvedTheme]);
+
+  return { isClient, resolvedTheme: clientResolvedTheme };
+};
+
+
+// Wrapper component to access Sidebar context and Theme context
+const MainContent = ({ children }: { children: React.ReactNode }) => {
+  const { state: sidebarState } = useSidebar();
+  const { isClient, resolvedTheme } = useClientResolvedTheme(); // Use helper hook
+  const isMobile = useIsMobile();
 
   const getPaddingClass = () => {
-    if (!isClient) return 'pt-14 md:pt-0'; // Default SSR padding (keep for safety)
+    if (!isClient) return 'pt-14 md:pt-0'; // Default SSR padding
     if (isMobile) {
       return 'pt-14'; // Mobile padding top for header
     }
@@ -199,14 +212,15 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>{/* Remove whitespace after opening tag */}
       <head>{/* Remove any whitespace between tags inside head */}
         <title>Harshith's Portfolio</title>
         <meta name="description" content="Portfolio of Harshith Deshalli Ravi, AI/ML Engineer and Data Scientist." />
         {/* Add other meta tags, link tags (like favicon) here */}
       </head>
       <body className={cn('min-h-screen bg-background font-sans antialiased flex flex-col md:flex-row', inter.variable)}>
-          <ThemeProvider
+          {/* Use ClientThemeProvider wrapper */}
+          <ClientThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
@@ -217,7 +231,8 @@ export default function RootLayout({
               <AppLayout>{children}</AppLayout>
             </Suspense>
             <Toaster />
-          </ThemeProvider>
+            <Analytics /> {/* Add Vercel Analytics here */}
+          </ClientThemeProvider>
       </body>
     </html>
   );
