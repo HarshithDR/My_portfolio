@@ -90,15 +90,17 @@ const HeroSection: React.FC = () => {
             transition={{ delay: 0.1, duration: 0.5 }}
             className="relative z-10 mb-4" // Added margin-bottom
         >
-            <Image
-               src="https://picsum.photos/seed/profile-pic/160/160" // Increased size
-               alt="Harshith Deshalli Ravi Profile Picture"
-               width={160} // Increased size
-               height={160} // Increased size
-               className="rounded-full border-4 border-primary shadow-lg"
-               data-ai-hint="professional headshot developer"
-               priority // Load image faster
-            />
+            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-primary shadow-lg">
+          <Image
+            src="/photo.jpeg"
+            alt="Harshith Deshalli Ravi Profile Picture"
+            width={160}
+            height={160}
+            className="object-cover w-full h-full"
+            priority
+          />
+        </div>
+
         </motion.div>
 
       {/* Greeting and Name Container */}
