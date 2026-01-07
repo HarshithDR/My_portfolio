@@ -5,6 +5,7 @@
 import React from 'react';
 import AchievementsSection from '@/components/sections/AchievementsSection';
 import { LazyMotion, domAnimation } from "framer-motion";
+import ScrollDownIndicator from '@/components/ui/scroll-down-indicator';
 
 export default function AchievementsPage() {
   return (

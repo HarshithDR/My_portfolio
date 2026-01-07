@@ -5,6 +5,7 @@
 import React from 'react';
 import SkillsSection from '@/components/sections/SkillsSection';
 import { LazyMotion, domAnimation } from "framer-motion";
+import ScrollDownIndicator from '@/components/ui/scroll-down-indicator';
 
 export default function SkillsPage() {
   return (

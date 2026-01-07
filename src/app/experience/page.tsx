@@ -5,6 +5,7 @@
 import React from 'react';
 import ExperienceSection from '@/components/sections/ExperienceSection';
 import { LazyMotion, domAnimation } from "framer-motion";
+import ScrollDownIndicator from '@/components/ui/scroll-down-indicator';
 
 export default function ExperiencePage() {
   return (

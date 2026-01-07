@@ -1,10 +1,10 @@
 
-
 'use client';
 
 import React from 'react';
 import AboutSection from '@/components/sections/AboutSection';
 import { LazyMotion, domAnimation } from "framer-motion";
+import ScrollDownIndicator from '@/components/ui/scroll-down-indicator';
 
 export default function AboutPage() {
   return (

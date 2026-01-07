@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -5,7 +6,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, FileText } from 'lucide-react'; // Added FileText icon
+import { ArrowRight, FileText, ChevronDown } from 'lucide-react'; // Added ChevronDown
 import MathSymbolBackground from '@/components/layout/MathSymbolBackground';
 import { cn } from '@/lib/utils';
 import { socialLinks } from '@/config/nav';
@@ -163,7 +164,7 @@ const HeroSection: React.FC = () => {
                {/* The PDF viewer takes up the remaining space */}
                <div className="flex-grow overflow-hidden">
                   {/* Pass the correct path to the resume file */}
-                  <PdfViewer file="/resume.pdf" />
+                  <PdfViewer file="/Harshith_Deshalli_Ravi.pdf" />
                </div>
             </DialogContent>
          </Dialog>

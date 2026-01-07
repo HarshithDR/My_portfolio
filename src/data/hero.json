@@ -3,10 +3,10 @@
   "greeting": "Hi, I am",
   "name": "Harshith Deshalli Ravi",
   "roles": [
-    { "left": "AI/ML Engineer", "right": "Crafting Intelligent Solutions" },
-    { "left": "Data Scientist", "right": "Building the Future with Data" },
-    { "left": "AI Specialist", "right": "Innovator in AI/ML Applications" },
-    { "left": "ML Engineer", "right": "Specializing in LLMs and RAG" }
+    { "left": "Robotics AI Researcher", "right": "Building Sim-to-Real Systems" },
+    { "left": "Exoskeleton Developer", "right": "Pioneering Haptic Teleoperation" },
+    { "left": "Robotics Simulation Expert", "right": "Mastering Isaac Sim & ROS" },
+    { "left": "Computer Vision Engineer", "right": "Solving Perception Challenges" }
   ],
   "buttonText": "Explore My Projects",
   "buttonLink": "/projects",

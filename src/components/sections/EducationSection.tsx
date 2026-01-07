@@ -3,10 +3,11 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { GraduationCap, MapPin } from 'lucide-react';
+import { GraduationCap, MapPin, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 // Removed Education type import as it's inferred from JSON
 import educationData from '@/data/education.json'; // Import JSON data
+import { Badge } from '@/components/ui/badge';
 
 // Map icon names to Lucide components
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -55,19 +56,37 @@ const EducationSection: React.FC = () => {
                 >
                   <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 border border-border rounded-xl overflow-hidden bg-card">
                     <CardHeader className="p-6 bg-muted/30 border-b">
-                      <div className="flex items-center gap-4">
-                         <EduIcon className="h-8 w-8 text-accent flex-shrink-0" />
-                         <div>
-                            <CardTitle className="text-xl md:text-2xl font-semibold text-primary">{edu.institution}</CardTitle>
-                            <CardDescription className="text-sm text-muted-foreground flex items-center gap-1 pt-1">
-                                <MapPin className="h-3 w-3" /> {edu.location}
-                            </CardDescription>
+                      <div className="flex items-start justify-between">
+                         <div className="flex items-center gap-4">
+                           <EduIcon className="h-8 w-8 text-accent flex-shrink-0" />
+                           <div>
+                              <CardTitle className="text-xl md:text-2xl font-semibold text-primary">{edu.institution}</CardTitle>
+                              <CardDescription className="text-sm text-muted-foreground flex items-center gap-1 pt-1">
+                                  <MapPin className="h-3 w-3" /> {edu.location}
+                              </CardDescription>
+                           </div>
                          </div>
+                         <p className="text-sm text-muted-foreground text-right flex-shrink-0 pt-1">{edu.period}</p>
                       </div>
                     </CardHeader>
-                    <CardContent className="p-6 space-y-2">
+                    <CardContent className="p-6 space-y-4">
                       <p className="text-lg font-medium text-foreground">{edu.degree} in {edu.major}</p>
-                      <p className="text-sm text-muted-foreground">{edu.period}</p>
+                      
+                      {edu.coursework && edu.coursework.length > 0 && (
+                        <div>
+                            <h4 className="text-sm font-semibold text-primary flex items-center gap-2 mb-2">
+                               <BookOpen className="h-4 w-4 text-accent"/>
+                               Relevant Coursework
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                                {edu.coursework.map(course => (
+                                    <Badge key={course} variant="secondary" className="font-normal">
+                                        {course}
+                                    </Badge>
+                                ))}
+                            </div>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 </motion.div>

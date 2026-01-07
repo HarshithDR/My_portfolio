@@ -5,7 +5,7 @@
   "contactInfo": [
     { "icon": "Mail", "text": "harshithdr10@gmail.com", "href": "mailto:harshithdr10@gmail.com", "label": "Email" },
     { "icon": "Phone", "text": "(224)-566 5998", "href": "tel:+12245665998", "label": "Phone" },
-    { "icon": "MapPin", "text": "Santa Clara, CA", "href": "#", "label": "Location", "isLink": false },
+    { "icon": "MapPin", "text": "Chicago, IL", "href": "#", "label": "Location", "isLink": false },
     { "icon": "Linkedin", "text": "linkedin.com/in/harshith-deshalli-ravi", "href": "https://linkedin.com/in/harshith-deshalli-ravi", "label": "LinkedIn Profile" },
     { "icon": "Github", "text": "github.com/HarshithDR", "href": "https://github.com/HarshithDR", "label": "GitHub Profile" }
   ]

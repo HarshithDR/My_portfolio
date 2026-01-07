@@ -71,7 +71,8 @@ export interface Education {
     major: string;
     period: string;
     location: string;
-    icon?: React.ComponentType<{ className?: string }>; // Optional: icon for institution type (e.g., university)
+    icon?: string;
+    coursework?: string[];
 }
 
 

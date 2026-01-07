@@ -12,42 +12,47 @@ interface MathSymbolBackgroundProps {
   fontSize?: number;
 }
 
-// Common AI/ML symbols and short equations/formulas - Expanded with more complex examples
+// Expanded list with a heavy focus on Robotics, Control Systems, and advanced AI/ML for robotics
 const symbols = [
-  'σ(x) = 1 / (1 + e⁻ˣ)', // Sigmoid Function
-  'ReLU(x) = max(0, x)', // ReLU Function
-  'L = -Σ yᵢ log(ŷᵢ)',    // Cross-Entropy Loss (simplified)
-  'MSE = Σ(yᵢ - ŷᵢ)² / n', // Mean Squared Error
+  // Core Robotics & Kinematics
+  'T = A₁ * A₂ * ... * Aₙ', // Forward Kinematics
+  'q = f⁻¹(T)',             // Inverse Kinematics
+  'J(q)',                   // Jacobian Matrix
+  'ẋ = J(q)ġ',              // Velocity Kinematics
+  'τ = Jᵀ(q)F',             // Static Force Relationship
+  'M(q)q̈ + C(q, ġ)ġ + g(q) = τ', // Robot Dynamics
+  'R_z(θ)',                 // Rotation Matrix
+  'MPC', 'RRT*', 'PID', 'SLAM',
+  
+  // ASCII Art representations
+  '[(-)]--/--O',          // Simple Manipulator Arm
+  'o-<-<',                  // Another arm style
+  'O===[,,,]',              // Gripper
+  '//o\\\\',                 // Humanoid-like structure
+  'Δx_k = x_k - ẋ_k',
+
+  // Control Systems & State Estimation
+  'u(t) = Kp*e(t) + Ki∫e(t)dt + Kd*de/dt', // PID Controller
+  'ẋ = Ax + Bu',            // State-Space Representation
+  'y = Cx + Du',
+  'P(x, m | z, u)',         // SLAM Posterior
+  'x̂ₖ = A*x̂ₖ₋₁ + B*uₖ',     // Kalman Filter Prediction
+  'K = P*Hᵀ(H*P*Hᵀ+R)⁻¹',  // Kalman Gain
+  'P(A|B) = P(B|A)P(A)/P(B)', // Bayes' Theorem
+
+  // Advanced AI/ML for Robotics
+  'Attention(Q, K, V) = softmax(QKᵀ/√dₖ)V', // Transformer Attention
   '∇L(θ)',                 // Gradient of Loss
   'θ ← θ - η∇L(θ)',       // Gradient Descent Update Rule
-  'P(A|B) = P(B|A)P(A)/P(B)', // Bayes' Theorem
-  'E[X] = Σ xᵢP(xᵢ)',      // Expected Value
-  'Var(X) = E[(X-μ)²]',    // Variance
-  'argmax f(x)',           // Argmax
-  'y = Wx + b',           // Linear Equation
-  'softmax(z)ᵢ = eᶻᵢ / Σ eᶻⱼ', // Softmax Function
-  'Precision = TP / (TP + FP)', // Precision Formula
-  'Recall = TP / (TP + FN)', // Recall Formula
-  'F1 = 2 * (Prec * Rec) / (Prec + Rec)', // F1 Score
-  'Euclidean Dist = √(Σ(xᵢ - yᵢ)²)', // Euclidean Distance
-  'Cosine Sim = (A·B) / (||A|| ||B||)', // Cosine Similarity
-  'NLP', 'CNN', 'RNN', 'LSTM', 'Transformer', 'RAG', 'LLM', 'GPT', // Acronyms still okay
-  '∫ f(x) dx', 'Σ', 'Π', '∇', '∂', // Basic Math Symbols
-  'α', 'β', 'λ', 'η', 'θ', 'μ', 'ω', 'σ', 'ε', // Greek Letters
-  'Attention(Q, K, V) = softmax(QKᵀ/√dₖ)V', // Transformer Attention
-  'Dₖₗ(P||Q) = Σ P(x) log(P(x)/Q(x))', // KL Divergence
-  'H(X) = -Σ P(x) log P(x)',           // Entropy
-  'IG(D, a) = H(D) - Σ |Dᵥ|/|D| * H(Dᵥ)', // Information Gain
-  'Gini(D) = 1 - Σ pᵢ²',             // Gini Impurity
-  'Adam: θ ← θ - η * m̂ / (√v̂ + ε)',  // Adam Optimizer (simplified)
-  'hₜ = tanh(Wₓₓxₜ + W<0xE2><0x82><0x95>ₕhₜ₋₁ + b<0xE2><0x82><0x95>)', // RNN Hidden State
-  'fₜ = σ(W<0xE2><0x82><0x91>[hₜ₋₁, xₜ] + b<0xE2><0x82><0x91>)',   // LSTM Forget Gate
-  'N(x|μ, σ²) = 1/√(2πσ²) * e^(-(x-μ)²/(2σ²))', // Gaussian PDF
-  'P(C|X) ∝ P(C) Π P(xᵢ|C)',           // Naive Bayes Classifier
-  'SVM: min ||w||² + C Σ ξᵢ',          // SVM Objective (simplified)
-  'PCA: Find PCs maximizing variance',    // PCA Concept
-  'GAN: min<0xE2><0x82><0x9A> max<0xE2><0x82><0x8D> V(D, G)',           // GAN Objective (conceptual)
-  'Word2Vec Skip-gram: Σ log P(w<0xE1><0xB5><0xA6>₊ⱼ|w<0xE1><0xB5><0xA6>)', // Skip-gram Objective (simplified)
+  'GAN: minₒ maxₔ V(D, G)', // GAN Objective
+  'Dₖₗ(P||Q)',             // KL Divergence
+  'H(X) = -Σ P(x) log P(x)', // Entropy
+  'σ(x)', 'ReLU(x)',
+  
+  // General Math & Greek Letters
+  '∫ f(x) dx', 'Σ', 'Π', '∇', '∂',
+  'α', 'β', 'λ', 'η', 'θ', 'μ', 'ω', 'σ', 'ε', 'τ', 'q', 'ẋ',
+  'argmax f(x)',
 ];
 
 
@@ -188,4 +193,3 @@ const MathSymbolBackground: React.FC<MathSymbolBackgroundProps> = ({
 };
 
 export default MathSymbolBackground;
-

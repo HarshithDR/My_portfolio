@@ -14,11 +14,14 @@ import ClientOnlyFloatingChatbot from '@/components/chatbot/ClientOnlyFloatingCh
 import MobileHeader from '@/components/layout/MobileHeader';
 import { useIsMobile } from '@/hooks/use-mobile';
 import React, { useState, useEffect, useMemo, Suspense } from 'react';
+import { usePathname } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
 import MathSymbolBackground from '@/components/layout/MathSymbolBackground';
 import { Analytics } from "@vercel/analytics/react";
 import heroData from '@/data/hero.json'; // Import hero data (might be used elsewhere)
 import chatbotData from '@/data/chatbot.json'; // Import chatbot data
+import ScrollDownIndicator from '@/components/ui/scroll-down-indicator';
+
 
 const inter = Inter({
   subsets: ['latin'],
@@ -90,6 +93,27 @@ const MainContent = ({ children }: { children: React.ReactNode }) => {
   const { state: sidebarState } = useSidebar();
   const { isClient, resolvedTheme } = useClientResolvedTheme();
   const isMobile = useIsMobile();
+  const pathname = usePathname();
+  const [isAtBottom, setIsAtBottom] = useState(false);
+
+  useEffect(() => {
+    if (!isClient || isMobile) return;
+
+    const handleScroll = () => {
+      // Check if user is near the bottom of the page
+      const isBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 50; // 50px buffer
+      setIsAtBottom(isBottom);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Initial check
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isClient, isMobile, pathname]); // Re-check on path change
+
 
   const getPaddingClass = () => {
     if (!isClient) return 'pt-14 md:pt-0';
@@ -103,6 +127,25 @@ const MainContent = ({ children }: { children: React.ReactNode }) => {
       if (!isClient) return 'hsl(210 15% 18% / 0.6)';
       return resolvedTheme === 'dark' ? 'hsl(210 10% 85% / 0.6)' : 'hsl(210 15% 18% / 0.6)';
   }, [resolvedTheme, isClient]);
+
+  // Determine the target for the scroll indicator
+  const getScrollTarget = () => {
+    if (isMobile) {
+        if (pathname === '/') return '#about';
+        return '#'; // No scroll on other mobile pages
+    }
+    // Desktop targets
+    if (pathname === '/') return '#skills';
+    if (pathname === '/about') return '#contact'; // Example: scroll to contact from about
+    // For other pages, we can have a default or specific targets
+    if (['/skills', '/experience', '/projects', '/education', '/achievements', '/blog'].includes(pathname)) {
+        return '#'; // Placeholder, could be next section ID if pages get longer
+    }
+    return '#';
+  };
+
+  // Logic to decide when to show the scroll indicator
+  const showScrollIndicator = !isMobile && pathname !== '/contact' && !isAtBottom;
 
 
   return (
@@ -121,6 +164,7 @@ const MainContent = ({ children }: { children: React.ReactNode }) => {
         )}>
           {children}
         </main>
+        {showScrollIndicator && <ScrollDownIndicator href={getScrollTarget()} />}
     </div>
   );
 };

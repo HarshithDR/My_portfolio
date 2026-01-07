@@ -5,6 +5,7 @@
 import React from 'react';
 import ProjectsSection from '@/components/sections/ProjectsSection';
 import { LazyMotion, domAnimation } from "framer-motion";
+import ScrollDownIndicator from '@/components/ui/scroll-down-indicator';
 
 export default function ProjectsPage() {
   return (

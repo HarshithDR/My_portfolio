@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -6,11 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import {
     Cpu, Database, Cloud, BrainCircuit, Code, Wrench, BarChart, GitBranch, Terminal, Sigma, Briefcase, Network, LineChart, Recycle, Boxes, Cog,
-    Library, Palette, DatabaseBackup, Table, Server, AreaChart, FlaskConical, Container, Workflow, AppWindow, Copy, Target, Settings2, DatabaseZap, Combine, Puzzle, Zap, Binary, Layers, GalleryThumbnails, Calculator, TrendingUp, PieChart, GitMerge, SquareSigma, Rabbit // Removed DatabaseLock
+    Library, Palette, DatabaseBackup, Table, Server, AreaChart, FlaskConical, Container, Workflow, AppWindow, Copy, Target, Settings2, DatabaseZap, Combine, Puzzle, Zap, Binary, Layers, GalleryThumbnails, Calculator, TrendingUp, PieChart, GitMerge, SquareSigma, Rabbit, HardHat, Camera, Cloudy, ScanSearch, Move3d, Spline, CircuitBoard, Radar, Sparkles, MessageSquare
 } from 'lucide-react';
 import skillData from '@/data/skills.json'; // Import JSON data
 
-// --- SVG Icon Components (Keep specific logos, replace generics later) ---
+// --- SVG Icon Components ---
 const PythonIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
       <path fill="#306998" d="M17.6 13.46a6.54 6.54 0 01-3.92-3.04l-.1-.18-1.19-.1a5.54 5.54 0 00-3.35 1.04l-.18.13-.86 1.08a4.06 4.06 0 00-1.2 2.47l-.02.27v4.29a4.44 4.44 0 004.44 4.44h4.29a4.44 4.44 0 004.44-4.44v-4.29a4.28 4.28 0 00-2.35-3.73zm-5.14 8.15a2.07 2.07 0 112.07-2.07 2.07 2.07 0 01-2.07 2.07z"/>
@@ -18,7 +17,7 @@ const PythonIcon = () => (
     </svg>
 );
 const CppIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-blue-600 dark:text-blue-500">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-[#00599C]">
         <path d="M19.11 11.15l-1.78-3.01c-.25-.43-.74-.66-1.22-.66h-3.1V4.07c0-.59-.48-1.07-1.07-1.07H7.1c-.59 0-1.07.48-1.07 1.07v3.41H3.1c-.48 0-.97.23-1.22.66L.1 11.15c-.25.43-.25.95 0 1.38l1.78 3.01c.25.43.74.66 1.22.66h3.1v3.41c0 .59.48 1.07 1.07 1.07h4.81c.59 0 1.07-.48 1.07-1.07v-3.41h3.1c.48 0 .97-.23 1.22-.66l1.78-3.01c.25-.43.25-.95 0-1.38zM8.17 15.43h1.87v1.87H8.17v-1.87zm0-3.74h1.87v1.87H8.17v-1.87zm0-3.74h1.87v1.87H8.17V7.95zm5.8 7.48h-1.87v-1.87h1.87v1.87zm0-3.74h-1.87v-1.87h1.87v1.87zm0-3.74h-1.87V7.95h1.87v1.87z"/>
     </svg>
 );
@@ -42,6 +41,12 @@ const RIcon = () => (
       <path fill="#fff" d="M375.1 215.2c-94.6 0-171.6 77-171.6 171.6s77 171.6 171.6 171.6 171.6-77 171.6-171.6c0-53.5-24.8-102.7-65.2-134.4-37.5-30-85.3-41.6-131.7-36.4l25.3 25.3v91.7H436c22.4 0 31.1 18.1 27.4 38.3-8.7 46.1-50.5 78.9-98.3 78.9-55.5 0-100.7-45.2-100.7-100.7s45.2-100.7 100.7-100.7c20.3 0 39.6 6 56.3 16.8v-30.5c-17-7.9-36.1-12.4-56.3-12.4z"/>
     </svg>
 );
+const RosIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#223140" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"/>
+        <path d="M15.5 15.5c-1.333-1.333-2.833-2.167-4.5-2.5m-3 3C6.667 14.667 5.833 13.167 5.5 11.5m.5-4C7.333 6.167 9.167 5.333 11.5 5.5m7 7c-1.333 1.333-2.833 2.167-4.5 2.5"/>
+    </svg>
+);
 const TensorFlowIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 105 128" className="w-6 h-6">
         <path fill="#FF6F00" d="M52.5 0L0 30v67.5L52.5 128l52.5-30.5V30L52.5 0zm31.5 86.25l-9 5.25v10.5l15 8.75L105 105V48.75l-21 12v25.5zm-15-10.5l-16.5-9.5-16.5 9.5v19l16.5 9.5 16.5-9.5v-19zM21 96.75L6 105V48.75l21 12V96.75zm0-42L36 48v10.5L21 63.75V54.75zm31.5-19L84 54.75v31.5l-9 5.25v-31.5L52.5 46.25zM36 48l16.5-9.5 16.5 9.5-16.5 9.5L36 48z"/>
@@ -52,7 +57,7 @@ const PyTorchIcon = () => (
         <path fill="#ee4c2c" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64 64-28.7 64-64S99.3 0 64 0zm17.6 100.8c-1.3 1.3-3.2 2-5 2s-3.7-.7-5-2L64 91.2l-7.6 7.6c-1.3 1.3-3.2 2-5 2s-3.7-.7-5-2c-2.7-2.7-2.7-7.1 0-9.8L56.8 81.4l-7.4-7.4c-2.7-2.7-2.7-7.1 0-9.8 2.7-2.7 7.1-2.7 9.8 0L64 69.4l5.2-5.2c2.7-2.7 7.1-2.7 9.8 0s2.7 7.1 0 9.8L71.2 81.4l7.4 7.4c2.8 2.6 2.8 7.1 0 9.8zm25.6-36.8c0 3.7-3 6.7-6.7 6.7s-6.7-3-6.7-6.7 3-6.7 6.7-6.7 6.7 3 6.7 6.7zM26.7 64c0 3.7-3 6.7-6.7 6.7S13.3 67.7 13.3 64s3-6.7 6.7-6.7 6.7 3 6.7 6.7z"/>
     </svg>
 );
-const NltkIcon = () => <Library className="w-6 h-6 text-green-600 dark:text-green-500" />; // Using a library icon as placeholder
+const NltkIcon = () => <Library className="w-6 h-6 text-green-600 dark:text-green-500" />;
 const LangchainIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="w-6 h-6">
         <rect width="256" height="256" fill="none"/>
@@ -74,30 +79,54 @@ const OpenCvIcon = () => (
       <circle cx="50" cy="35" r="25" fill="#00f"/>
     </svg>
 );
-const UnslothIcon = () => <Rabbit className="w-6 h-6 text-pink-500 dark:text-pink-400" />; // Use a similar animal icon
-const NlpIcon = () => <Combine className="w-6 h-6 text-blue-500 dark:text-blue-400" />; // More abstract
-const CnnIcon = () => <Layers className="w-6 h-6 text-orange-500 dark:text-orange-400" />; // Represents layers
-const RlIcon = () => <Target className="w-6 h-6 text-green-500 dark:text-green-400" />; // Represents goal-oriented learning
-const LlmIcon = () => <BrainCircuit className="w-6 h-6 text-purple-500 dark:text-purple-400" />; // Keep for LLM
-const DiffusionIcon = () => <GalleryThumbnails className="w-6 h-6 text-teal-500 dark:text-teal-400" />; // Image generation related
-const LlamaCppIcon = () => <Binary className="w-6 h-6 text-gray-600 dark:text-gray-400" />; // Represents code/low-level
-const VectorDbIcon = () => <DatabaseZap className="w-6 h-6 text-indigo-500 dark:text-indigo-400" />; // More specific DB icon
-const RegressionIcon = () => <TrendingUp className="w-6 h-6 text-red-500 dark:text-red-400" />; // Represents trend/line
-const ClassificationIcon = () => <Puzzle className="w-6 h-6 text-yellow-500 dark:text-yellow-400" />; // Represents categorizing/fitting
-const ClusteringIcon = () => <Network className="w-6 h-6 text-lime-500 dark:text-lime-400" />; // Keep network for grouping
-const EnsembleIcon = () => <Boxes className="w-6 h-6 text-cyan-500 dark:text-cyan-400" />; // Represents multiple models
-const BackpropIcon = () => <Recycle className="w-6 h-6 text-amber-500 dark:text-amber-400" />; // Keep for feedback loop concept
-const NeuralNetworkIcon = () => <Workflow className="w-6 h-6 text-fuchsia-500 dark:text-fuchsia-400" />; // Represents interconnected nodes
-const ModelPipelineIcon = () => <GitMerge className="w-6 h-6 text-slate-500 dark:text-slate-400" />; // Represents workflow/steps
-const ModelTrainingIcon = () => <Settings2 className="w-6 h-6 text-rose-500 dark:text-rose-400" />; // Represents tuning/process
+const UnslothIcon = () => <Rabbit className="w-6 h-6 text-pink-500 dark:text-pink-400" />;
+const NlpIcon = () => <Combine className="w-6 h-6 text-blue-500 dark:text-blue-400" />;
+const CnnIcon = () => <Layers className="w-6 h-6 text-orange-500 dark:text-orange-400" />;
+const RlIcon = () => <Target className="w-6 h-6 text-green-500 dark:text-green-400" />;
+const LlmIcon = () => <BrainCircuit className="w-6 h-6 text-purple-500 dark:text-purple-400" />;
+const DiffusionIcon = () => <GalleryThumbnails className="w-6 h-6 text-teal-500 dark:text-teal-400" />;
+const LlamaCppIcon = () => <Binary className="w-6 h-6 text-gray-600 dark:text-gray-400" />;
+const VectorDbIcon = () => <DatabaseZap className="w-6 h-6 text-indigo-500 dark:text-indigo-400" />;
+const EnsembleIcon = () => <Boxes className="w-6 h-6 text-cyan-500 dark:text-cyan-400" />;
+const ModelTrainingIcon = () => <Settings2 className="w-6 h-6 text-rose-500 dark:text-rose-500" />;
 const GitIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#F05033" className="w-6 h-6">
-      <path d="M23.3 10.6c-.2-.2-.4-.3-.7-.3H18v-1c0-1.1-.9-2-2-2h-2.1c-.5 0-1-.2-1.4-.6L11.1 5c-.8-.8-2-.8-2.8 0L6.9 6.4c-.4.4-.9.6-1.4.6H3c-1.1 0-2 .9-2 2v1H.7c-.3 0-.5.1-.7.3-.2.2-.3.4-.3.7v2c0 .3.1.5.3.7.2.2.4.3.7.3h.3v1c0 1.1.9 2 2 2h2.1c.5 0 1 .2 1.4.6l1.4 1.4c.4.4.9.6 1.4.6s1-.2 1.4-.6l1.4-1.4c.4-.4-.9-.6-1.4-.6H16c1.1 0 2-.9 2-2v-1h.3c.3 0 .5-.1.7-.3.2-.2.3-.4.3-.7v-2c0-.3-.1-.5-.3-.7zm-1.7 2.1h-1.7c-.5 0-1 .2-1.4.6L17.1 15c-.8.8-2 .8-2.8 0l-1.4-1.4c-.4-.4-.9-.6-1.4-.6s-1 .2-1.4.6L8.7 15c-.8.8-2 .8-2.8 0l-1.4-1.4c-.4-.4-.9-.6-1.4-.6H1.4v-1.5h1.7c.5 0 1-.2 1.4-.6L5.9 10c.8-.8 2-.8 2.8 0l1.4 1.4c.4.4.9.6 1.4.6s1-.2 1.4-.6l1.4-1.4c.8-.8 2-.8 2.8 0l1.4 1.4c.4.4.9.6 1.4.6h1.7v1.5z"/>
+      <path d="M23.3 10.6c-.2-.2-.4-.3-.7-.3H18v-1c0-1.1-.9-2-2-2h-2.1c-.5 0-1-.2-1.4-.6L11.1 5c-.8-.8-2-.8-2.8 0L6.9 6.4c-.4.4-.9.6-1.4.6H3c-1.1 0-2 .9-2 2v1H.7c-.3 0-.5.1-.7.3-.2.2-.3.4-.3.7v2c0 .3.1.5.3.7.2.2.4.3.7.3h.3v1c0 1.1.9 2 2 2h2.1c.5 0 1 .2 1.4.6l1.4 1.4c.4.4.9.6 1.4.6s1-.2 1.4-.6l1.4-1.4c-.4-.4-.9-.6-1.4-.6H16c1.1 0 2-.9 2-2v-1h.3c.3 0 .5-.1.7-.3.2.2.3-.4.3-.7v-2c0-.3-.1-.5-.3-.7zm-1.7 2.1h-1.7c-.5 0-1 .2-1.4.6L17.1 15c-.8.8-2 .8-2.8 0l-1.4-1.4c-.4-.4-.9-.6-1.4-.6s-1 .2-1.4.6L8.7 15c-.8.8-2 .8-2.8 0l-1.4-1.4c-.4-.4-.9-.6-1.4-.6H1.4v-1.5h1.7c.5 0 1-.2 1.4-.6L5.9 10c.8-.8 2-.8 2.8 0l1.4 1.4c.4.4.9.6 1.4.6s1-.2 1.4-.6l1.4-1.4c.8-.8 2-.8 2.8 0l1.4 1.4c.4.4.9.6 1.4.6h1.7v1.5z"/>
     </svg>
 );
 const DockerIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#2496ED" className="w-6 h-6">
         <path d="M23.11 11.5l-1.73-1.13V8.62h-1.7v1.77l-1.7-1.1V7.56h-1.7v1.8l-1.7-1.12V6.5h-1.7v1.82l-1.7-1.14V5.46H9.16v1.83L7.46 6.16V4.43H5.76v1.85L4.06 5.16V3.43H2.36v9.06c0 1.67.68 3.18 1.78 4.28s2.6 1.78 4.28 1.78h8.99c3.31 0 6-2.69 6-6v-1.05zm-13 5.58c-1.97 0-3.58-1.6-3.58-3.58s1.6-3.58 3.58-3.58 3.58 1.6 3.58 3.58-1.61 3.58-3.58 3.58zM3.36 9.74h1.7v1.73H3.36V9.74zm3.4 0h1.7v1.73H6.76V9.74zm3.4 0h1.7v1.73h-1.7V9.74zm3.4 0h1.7v1.73h-1.7V9.74zm3.4 0h1.7v1.73h-1.7V9.74z"/>
+    </svg>
+);
+const GazeboIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="#E69F00">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5zM2 12l10 5 10-5-10-5-10 5z"/>
+    </svg>
+);
+const NvidiaIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="#76B900">
+        <path d="M13.4,8.7H16V2.5h-5v8.7h2.4V8.7z M8,13.7v-3H2.5v5.2h5.5V13.7z M8,2.5H2.5v5.2H8V2.5z M13.4,16.2v-5h-5.4v7.5h5.4V16.2z M21.5,8.7v7.5h-5.7v-7.5H21.5z M15.8,18.7v2.8h5.7v-5.5h-5.7V18.7z"/>
+    </svg>
+);
+const ArduinoIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="#00979D">
+        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM8 11H6v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/>
+    </svg>
+);
+const RaspberryPiIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="#C51A4A">
+        <path d="M17.55 7.64c-.2-.23-.46-.4-.75-.53-.28-.13-.6-.2-.93-.2s-.65.07-.93.2c-.28.13-.55.3-.75.53l-3.3 3.32c-.4.4-.63.93-.63 1.5 0 .57.23 1.1.63 1.5l3.3 3.32c.4.4.93.63 1.5.63s1.1-.23 1.5-.63l3.3-3.32c.4-.4.63-.93-.63-1.5s-.23-1.1-.63-1.5l-3.3-3.32zM8.13 4.2c-.2.23-.46.4-.75-.53-.28-.13-.6-.2-.93-.2s-.65-.07-.93-.2c-.28-.13-.55-.3-.75-.53L1.5 7.52c-.4.4-.63.93-.63 1.5s.23 1.1.63 1.5l3.27 3.32c.4.4.93.63 1.5.63s1.1-.23 1.5-.63l3.27-3.32c.4-.4.63-.93-.63-1.5s-.23-1.1-.63-1.5L8.13 4.2zm7.74 12.3c-.2.23-.46.4-.75-.53-.28-.13-.6-.2-.93-.2s-.65-.07-.93-.2c-.28-.13-.55-.3-.75-.53l-3.27-3.32c-.4-.4-.63.93-.63-1.5s.23-1.1.63-1.5l3.27-3.32c.4-.4.93-.63 1.5-.63s1.1.23 1.5.63l3.27 3.32c.4.4.63.93.63-1.5s-.23-1.1-.63-1.5l3.27-3.32c-.2-.23-.46-.4-.75-.53-.28-.13-.6-.2-.93-.2s-.65-.07-.93-.2c-.28-.13-.55-.3-.75-.53l3.27 3.32c.4.4.63.93.63 1.5s-.23 1.1-.63 1.5l-3.27 3.32z"/>
+    </svg>
+);
+const SolidWorksIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="#DA1F28">
+        <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm-1.04 15.66l-4.68-2.67v-5.3l4.68 2.66v5.31zm1.04-6.3L7.3 8.34l4.72-2.68 4.67 2.68-4.69 3.02zm1.04 6.3v-5.31l4.68-2.66v5.3l-4.68 2.67z"/>
+    </svg>
+);
+const Fusion360Icon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="#EF5A25">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-6h4v-2h-4v-2h4V8h-6v8h6v-2h-4v-2z"/>
     </svg>
 );
 const AwsIcon = () => (
@@ -120,51 +149,52 @@ const JenkinsIcon = () => (
       <circle fill="#FFFFFF" cx="420.9" cy="817.4" r="42.1"/>
     </svg>
 );
-const KubeflowIcon = () => <FlaskConical className="w-6 h-6 text-blue-500 dark:text-blue-400" />; // Lab icon
-const AirflowIcon = () => <Workflow className="w-6 h-6 text-cyan-500 dark:text-cyan-400" />; // Workflow icon
-const MlflowIcon = () => <GitBranch className="w-6 h-6 text-blue-600" />; // Branching/versioning icon
-const WandbIcon = () => <AreaChart className="w-6 h-6 text-yellow-400" />; // Chart icon
-const IbmCloudIcon = () => <Cloud className="w-6 h-6 text-blue-800 dark:text-blue-300" />; // Keep generic cloud
+const KubeflowIcon = () => <FlaskConical className="w-6 h-6 text-blue-500 dark:text-blue-400" />;
+const AirflowIcon = () => <Workflow className="w-6 h-6 text-cyan-500 dark:text-cyan-400" />;
+const MlflowIcon = () => <GitBranch className="w-6 h-6 text-blue-600" />;
+const WandbIcon = () => <AreaChart className="w-6 h-6 text-yellow-400" />;
+const IbmCloudIcon = () => <Cloud className="w-6 h-6 text-blue-800 dark:text-blue-300" />;
 const SparkIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" className="w-6 h-6">
         <path fill="#E25A1C" d="M64 0L51.7 12.3 64 24.6l12.3-12.3L64 0zM39.4 24.6L27.1 36.9l12.3 12.3L51.7 36.9 39.4 24.6zm49.2 0L76.3 36.9l12.3 12.3L100.9 36.9 88.6 24.6zM12.3 51.7L0 64l12.3 12.3L24.6 64 12.3 51.7zm103.4 0L103.4 64l12.3 12.3L128 64l-12.3-12.3zM39.4 88.6L27.1 76.3 39.4 64l12.3 12.3-12.3 12.3zm49.2 0L76.3 76.3 88.6 64l12.3 12.3-12.3 12.3zM64 103.4L51.7 115.7 64 128l12.3-12.3L64 103.4z"/>
     </svg>
 );
-const HadoopIcon = () => <DatabaseBackup className="w-6 h-6 text-yellow-600 dark:text-yellow-500" />; // Data storage icon
-const SqlIcon = () => <Table className="w-6 h-6 text-cyan-700 dark:text-cyan-600" />; // Table icon
+const HadoopIcon = () => <DatabaseBackup className="w-6 h-6 text-yellow-600 dark:text-yellow-500" />;
+const SqlIcon = () => <Table className="w-6 h-6 text-cyan-700 dark:text-cyan-600" />;
 const MongoDbIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 184 184" className="w-6 h-6">
         <path fill="#4DB33D" d="M131.1,34.6c-15.4-15.4-37.1-25.1-61.1-25.1S46.1,19.2,30.7,34.6C15.3,50,5.6,71.7,5.6,95.7 c0,12.9,2.5,25.8,7.6,37.8c10.4,24.3,29.5,43.4,53.8,53.8c12,5.1,24.9,7.6,37.8,7.6s25.8-2.5,37.8-7.6 c24.3-10.4,43.4-29.5,53.8-53.8c5.1-12,7.6-24.9,7.6-37.8C156.2,59.7,146.5,34.6,131.1,34.6z M109.6,126.3 c-14.3,14.3-35.9,20.9-57.4,16.3c-21.6-4.6-38.1-21.1-42.7-42.7c-4.6-21.6,2-43.1,16.3-57.4c14.3-14.3,35.9-20.9,57.4-16.3 c21.6,4.6,38.1,21.1,42.7,42.7C130.5,90.4,123.9,112,109.6,126.3z"/>
         <path fill="#FFFFFF" d="M106.8,70.1c-3.1-3.1-6.7-5.3-10.7-6.7c-4-1.4-8.3-2.1-12.7-2.1c-11.1,0-21.1,4.6-28.1,12.3 c-4.7,5.1-7.7,11.4-9,18.3h28.3c0.4-3.2,1.8-6.2,4.1-8.6c2.7-2.7,6.2-4.1,10.1-4.1c3.9,0,7.4,1.4,10.1,4.1 c2.3,2.3,3.6,5.3,4.1,8.6h28.3c-1.4-6.8-4.4-13.2-9-18.3C114.5,74.6,110.9,72.4,106.8,70.1z M70,116.2 C70,116.2,70,116.2,70,116.2c3.4,8.5,9.7,15,18.1,18.1c8.5,3.1,17.7,3.1,26.2,0c8.5-3.1,14.8-9.7,18.1-18.1 c0,0,0,0,0,0H70z"/>
     </svg>
 );
-const FaissIcon = () => <Database className="w-6 h-6 text-blue-400" />; // Use Database icon for Faiss
-const ChromaIcon = () => <Palette className="w-6 h-6 text-purple-400" />; // Color/vector concept
+const FaissIcon = () => <Database className="w-6 h-6 text-blue-400" />;
+const ChromaIcon = () => <Palette className="w-6 h-6 text-purple-400" />;
 const RedisIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" className="w-6 h-6">
       <path fill="#DC382D" d="M112 64c0 26.5-21.5 48-48 48S16 90.5 16 64 37.5 16 64 16s48 21.5 48 48z"/>
       <path fill="#fff" d="M64 40v16h16v8H64v24H48V64H32v-8h16V40z"/>
     </svg>
 );
-const QdrantIcon = () => <Server className="w-6 h-6 text-green-400" />; // Server/DB icon
-const CalculusIcon = () => <Calculator className="w-6 h-6 text-gray-500" />; // Calculator for math
-const TimeSeriesIcon = () => <LineChart className="w-6 h-6 text-gray-500" />; // Keep LineChart
-const StatisticsIcon = () => <PieChart className="w-6 h-6 text-gray-500" />; // Pie chart for stats
-const DsaIcon = () => <Copy className="w-6 h-6 text-gray-500" />; // Represents structure/copying data
-const LinearAlgebraIcon = () => <SquareSigma className="w-6 h-6 text-gray-500" />; // Matrix/sigma concept
+const QdrantIcon = () => <Server className="w-6 h-6 text-green-400" />;
+const CalculusIcon = () => <Calculator className="w-6 h-6 text-gray-500" />;
+const TimeSeriesIcon = () => <LineChart className="w-6 h-6 text-gray-500" />;
+const StatisticsIcon = () => <PieChart className="w-6 h-6 text-gray-500" />;
+const DsaIcon = () => <Copy className="w-6 h-6 text-gray-500" />;
+const LinearAlgebraIcon = () => <SquareSigma className="w-6 h-6 text-gray-500" />;
 
 
 // Map icon names (from JSON) to the actual icon components
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-    Code, Python: PythonIcon, Cpp: CppIcon, Js: JsIcon, Shell: ShellIcon, C: CIcon, R: RIcon,
-    Wrench, TensorFlow: TensorFlowIcon, PyTorch: PyTorchIcon, Nltk: NltkIcon, Langchain: LangchainIcon, Transformers: HuggingFaceIcon, HuggingFace: HuggingFaceIcon, OpenCV: OpenCvIcon, Langgraph: LangchainIcon, MCP: BrainCircuit, Unsloth: UnslothIcon,
+    Code, Python: PythonIcon, Cpp: CppIcon, Js: JsIcon, Shell: ShellIcon, C: CIcon, R: RIcon, Ros: RosIcon,
+    Wrench, TensorFlow: TensorFlowIcon, PyTorch: PyTorchIcon, JAX: Zap, Nltk: NltkIcon, Langchain: LangchainIcon, HuggingFace: HuggingFaceIcon, OpenCV: OpenCvIcon, Langgraph: LangchainIcon, Unsloth: UnslothIcon,
     BrainCircuit, Nlp: NlpIcon, Rl: RlIcon, Llm: LlmIcon, Diffusion: DiffusionIcon, LlamaCpp: LlamaCppIcon, VectorDb: VectorDbIcon,
-    Cog, Cnn: CnnIcon, Regression: RegressionIcon, Classification: ClassificationIcon, Clustering: ClusteringIcon, Ensemble: EnsembleIcon, Backprop: BackpropIcon, NeuralNetwork: NeuralNetworkIcon, ModelPipeline: ModelPipelineIcon, ModelTraining: ModelTrainingIcon,
+    Cog, Cnn: CnnIcon, Regression: TrendingUp, Classification: Puzzle, Clustering: Network, Ensemble: EnsembleIcon, Backprop: Recycle, NeuralNetwork: Workflow, ModelPipeline: GitMerge, ModelTraining: ModelTrainingIcon,
     Cloud, Aws: AwsIcon, Gcp: GcpIcon, Git: GitIcon, Docker: DockerIcon, Jenkins: JenkinsIcon, Kubeflow: KubeflowIcon, Airflow: AirflowIcon, Mlflow: MlflowIcon, Wandb: WandbIcon, IbmCloud: IbmCloudIcon,
     Database, Spark: SparkIcon, Hadoop: HadoopIcon, Sql: SqlIcon, MongoDb: MongoDbIcon, Faiss: FaissIcon, Chroma: ChromaIcon, Redis: RedisIcon, Qdrant: QdrantIcon,
+    HardHat, Gazebo: GazeboIcon, Nvidia: NvidiaIcon, Copy, Radar, Arduino: ArduinoIcon, CircuitBoard, RaspberryPi: RaspberryPiIcon, SolidWorks: SolidWorksIcon, Fusion360: Fusion360Icon,
+    Move3d, Spline, ScanSearch, Combine,
     Sigma, Calculus: CalculusIcon, TimeSeries: TimeSeriesIcon, Statistics: StatisticsIcon, Dsa: DsaIcon, LinearAlgebra: LinearAlgebraIcon,
-    // Add default icon if needed
-    Default: Zap, // Changed default to Zap
+    Default: Zap,
 };
 
 const SkillsSection: React.FC = () => {
@@ -185,12 +215,9 @@ const SkillsSection: React.FC = () => {
      tap: { scale: 0.9 }
   };
 
-  // Function to get the icon component based on name, falling back to a default
   const getIconComponent = (iconName: string | undefined): React.ComponentType<{ className?: string }> => {
-      // Ensure iconName exists and is a valid key in iconMap, otherwise use Default
       return (iconName && iconName in iconMap) ? iconMap[iconName] : iconMap['Default'];
   };
-
 
   return (
     <section
@@ -201,7 +228,7 @@ const SkillsSection: React.FC = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Technical Skills</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {skillData.map((category, index) => {
-            const CategoryIcon = getIconComponent(category.icon); // Get category icon component
+            const CategoryIcon = getIconComponent(category.icon);
             return (
               <motion.div
                 key={category.title}
@@ -217,21 +244,21 @@ const SkillsSection: React.FC = () => {
                     <CardTitle className="text-lg md:text-xl font-semibold text-primary">{category.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="p-4 md:p-5">
-                    <ul className="flex flex-wrap gap-4">
+                    <ul className="flex flex-wrap gap-x-2 gap-y-4 justify-start">
                       {category.skills.map((skill) => {
-                         const SkillIcon = getIconComponent(skill.icon); // Get skill icon component
+                         const SkillIcon = getIconComponent(skill.icon);
                          return (
                            <motion.li
                              key={skill.name}
-                             className="flex flex-col items-center text-center p-2 rounded-lg transition-colors duration-200 hover:bg-accent/10 w-16" // Fixed width for consistency
+                             className="flex flex-col items-center text-center p-2 rounded-lg transition-colors duration-200 hover:bg-accent/10 w-24 min-h-[64px]"
                              whileHover="hover"
-                             whileTap="tap"
-                             title={skill.name} // Add tooltip on hover
+                             whileTap={{ scale: 0.95 }}
+                             title={skill.name}
                            >
                              <motion.div variants={iconVariants} className="w-7 h-7 flex items-center justify-center mb-1">
                                <SkillIcon />
                              </motion.div>
-                             <span className="text-xs md:text-sm font-medium text-foreground truncate w-full">{skill.name}</span> {/* Truncate long names */}
+                             <span className="text-xs md:text-sm font-medium text-foreground w-full break-words">{skill.name}</span>
                            </motion.li>
                          );
                       })}
@@ -248,3 +275,4 @@ const SkillsSection: React.FC = () => {
 };
 
 export default SkillsSection;
+ 

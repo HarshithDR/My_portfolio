@@ -4,6 +4,7 @@
 import React from 'react';
 import EducationSection from '@/components/sections/EducationSection';
 import { LazyMotion, domAnimation } from "framer-motion";
+import ScrollDownIndicator from '@/components/ui/scroll-down-indicator';
 
 export default function EducationPage() {
   return (
